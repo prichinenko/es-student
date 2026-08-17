@@ -1,0 +1,8 @@
+git version 2.43.0
+Python 3.12.3
+cmake version 3.28.3
+GNU Make 4.3
+arm-none-eabi-gcc (15:13.2.rel1-2) 13.2.1 20231009
+code 1.131.0
+picotool v2.3.0 (Linux, GNU-13.3.0, Release)
+PICO_SDK_PATH=/hdd/data3/microcontrollers/rp2040/mfti/module_1/pico-sdk
