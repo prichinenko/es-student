@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(PICO_SDK_PATH "/hdd/data3/microcontrollers/rp2040/mfti/module_1/pico-sdk")
+# set(PICO_SDK_PATH "/hdd/data3/microcontrollers/rp2040/mfti/module_1/pico-sdk")
 
 set(PICO_BOARD pico)
 set(PICO_PLATFORM rp2040)
