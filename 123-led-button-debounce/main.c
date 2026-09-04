@@ -7,7 +7,7 @@ const uint8_t LED_PIN = 25;
 const uint8_t BUTTON_PIN = 24;
 const uint8_t DEBUONCE_MS = 20;
 
-bool get_button_debuonce(uint8_t pin)
+bool get_button_debounce(uint8_t pin)
 {
     bool state = gpio_get(pin);
     sleep_ms(DEBUONCE_MS);
@@ -29,7 +29,7 @@ int main()
 
     while (1)
     {
-        bool current = get_button_debuonce(BUTTON_PIN);
+        bool current = get_button_debounce(BUTTON_PIN);
 
         if (previous && !current)
         {
