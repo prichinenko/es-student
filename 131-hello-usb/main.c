@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 
 const uint8_t LED_PIN = 25;
 const uint8_t BUTTON_PIN = 24;
