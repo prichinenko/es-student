@@ -1,6 +1,7 @@
 #include "main.h"
 #include "led.h"
 #include "log.h"
+#include "device.h"
 #include <stdio.h>
 
 const uint8_t BUTTON_PIN = 24;
@@ -28,6 +29,10 @@ void handle_command(int command)
     else if (command == 'v')
     {
         log_version();
+    }
+    else if (command == 'i')
+    {
+        device_info();
     }
     else
     {
