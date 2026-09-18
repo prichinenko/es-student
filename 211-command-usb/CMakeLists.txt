@@ -11,15 +11,15 @@ set(PICO_PLATFORM rp2040)
 
 include(pico_sdk_import.cmake)
 
-project(134_led_module)
+project(211_command_usb)
 
 pico_sdk_init()
 
 add_executable(${PROJECT_NAME}
-    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/led/led.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/logging/log.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/device/device.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/led/led.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/logging/log.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/device/device.c
 )
 
 target_link_libraries(${PROJECT_NAME}
