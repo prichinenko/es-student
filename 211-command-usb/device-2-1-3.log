@@ -3,31 +3,31 @@
 устройство: 2e8a:000a
 серийный номер: 5045538400A2710C
 порт: /dev/ttyACM0
-начало: 2026-09-21T23:23:01
+начало: 2026-09-21T23:27:55
    0.000 --> mem_info
-   0.175 <-- mem_info
-   0.175 <-- dbg read_line:107 got mem_info
-   0.175 <-- area	start	end	size
-   0.176 <-- flash      0x10000000 0x10200000  2097152
-   0.176 <-- sram       0x20000000 0x20042000   270336
-   0.177 <-- rom        0x00000000 0x00004000    16384
-   0.178 <-- image      0x10000000 0x10009210    37392
-   0.178 <-- free       0x10009210 0x10200000  2059760
-   0.179 <-- boot2      0x10000000 0x10000100      256
-   0.179 <-- text       0x10000100 0x100085e0    34016
-   0.180 <-- data flash 0x100085e0 0x10009210     3120
-   0.180 <-- data ram   0x200000c0 0x20000cf0     3120
-   0.181 <-- bss        0x20000cf0 0x20001928     3128
-   0.182 <-- heap       0x20001928 0x20040000   255704
-   0.183 <-- stack      0x20041800 0x20042000     2048
-   0.183 <-- total
-   0.184 <-- flash image	   37392 = boot2 256 + text + 34016 + data 3120
-   0.185 <-- flash free	 2059760 of 2097152
-   0.185 <-- ram used	    6248 = data 3120 + bss 3508
-   0.186 <-- ram free	  255704 for heap and 2048 for stack
-   0.186 <-- flash size	   2097152
-   0.187 <-- chip vendor      unknown (0xFF)
-   0.187 <-- cmake said       2097152 bytes (PICO_FLASH_SIZE_BYTES)
-   0.188 <-- JEDEC: FF 68 40 18
-   0.188 <-- chip flash size  16777216 bytes (2^64)
+   0.164 <-- mem_info
+   0.164 <-- dbg read_line:107 got mem_info
+   0.165 <-- area	start	end	size
+   0.165 <-- flash      0x10000000 0x10200000  2097152
+   0.166 <-- sram       0x20000000 0x20042000   270336
+   0.166 <-- rom        0x00000000 0x00004000    16384
+   0.167 <-- image      0x10000000 0x10009210    37392
+   0.167 <-- free       0x10009210 0x10200000  2059760
+   0.168 <-- boot2      0x10000000 0x10000100      256
+   0.169 <-- text       0x10000100 0x100085e0    34016
+   0.169 <-- data flash 0x100085e0 0x10009210     3120
+   0.170 <-- data ram   0x200000c0 0x20000cf0     3120
+   0.170 <-- bss        0x20000cf0 0x20001928     3128
+   0.171 <-- heap       0x20001928 0x20040000   255704
+   0.171 <-- stack      0x20041800 0x20042000     2048
+   0.171 <-- total
+   0.172 <-- flash image	   37392 = boot2 256 + text + 34016 + data 3120
+   0.173 <-- flash free	 2059760 of 2097152
+   0.173 <-- ram used	    6248 = data 3120 + bss 3508
+   0.174 <-- ram free	  255704 for heap and 2048 for stack
+   0.174 <-- flash size	   2097152
+   0.175 <-- chip vendor      unknown (0xFF)
+   0.175 <-- cmake said       2097152 bytes (PICO_FLASH_SIZE_BYTES)
+   0.176 <-- JEDEC: FF 68 40 18
+   0.176 <-- chip flash size  16777216 bytes (2^64)
 итог: отправлено команд 1, принято строк 25
