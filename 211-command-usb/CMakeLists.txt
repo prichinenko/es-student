@@ -38,6 +38,10 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     DEVICE_BOARD="${PICO_BOARD}"
 )
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    PICO_SDK_VERSION="${PICO_SDK_VERSION_STRING}"
+)
+
 pico_set_linker_script(${PROJECT_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/memmap_rp2040.ld
 )

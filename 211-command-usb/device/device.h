@@ -10,4 +10,9 @@
 #define DEVICE_BOARD "unknown"
 #endif
 
+#ifndef PICO_SDK_VERSION_STRING
+#define PICO_SDK_VERSION_STRING "unknown"
+#endif
+
+
 void device_info(void);
