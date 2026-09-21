@@ -1,0 +1,27 @@
+задание: 2.1.1
+проект: 211-command-usb
+устройство: 2e8a:000a
+серийный номер: 5045538400A2710C
+порт: /dev/ttyACM0
+начало: 2026-09-21T19:36:46
+   0.000 --> enable
+   0.124 <-- enable
+   0.125 <-- dbg read_line:39 got enable
+   0.125 <-- inf handle_command:60 led on
+   2.128 --> disable
+   2.285 <-- disable
+   2.286 <-- dbg read_line:39 got disable
+   2.286 <-- inf handle_command:65 led off
+   4.288 --> info
+   4.386 <-- info
+   4.387 <-- dbg read_line:39 got info
+   4.387 <-- project: es-led-module
+   4.388 <-- repo: https://github.com/prichinenko/es-student
+   4.388 <-- board: pico
+   4.388 <-- serial: 5045538400A2710C
+   4.389 <-- chip: manufacturer 0x927, part 0x0002, revision 2
+   6.391 --> nosuchcommand
+   6.668 <-- nosuchcommand
+   6.669 <-- dbg read_line:39 got nosuchcommand
+   6.669 <-- err handle_command:77 unknown command: nosuchcommand
+итог: отправлено команд 4, принято строк 16
