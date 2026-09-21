@@ -46,6 +46,7 @@ def write_log(board, exchange):
     with open(LOG_NAME, "w", encoding="utf-8") as log:
         log.write("задание: " + TASK + "\n")
         log.write("проект: " + PROJECT + "\n")
+        log.write("project: " + PROJECT + "\n")
         log.write("устройство: %04x:%04x\n" % (board.vid, board.pid))
         log.write("серийный номер: " + str(board.serial_number) + "\n")
         log.write("порт: " + board.device + "\n")

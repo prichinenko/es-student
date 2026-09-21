@@ -1,28 +1,29 @@
 задание: 2.1.1
 проект: 211-command-usb
+project: 211-command-usb
 устройство: 2e8a:000a
 серийный номер: 5045538400A2710C
 порт: /dev/ttyACM0
-начало: 2026-09-21T19:48:48
+начало: 2026-09-21T19:51:35
    0.000 --> enable
-   0.126 <-- enable
-   0.126 <-- dbg read_line:39 got enable
-   0.126 <-- inf handle_command:60 led on
-   2.128 --> disable
-   2.287 <-- disable
-   2.287 <-- dbg read_line:39 got disable
-   2.288 <-- inf handle_command:65 led off
-   4.290 --> info
-   4.388 <-- info
-   4.388 <-- dbg read_line:39 got info
-   4.388 <-- project: es-led-module
-   4.389 <-- repo: https://github.com/prichinenko/es-student
-   4.389 <-- board: pico
-   4.390 <-- serial: 5045538400A2710C
-   4.390 <-- chip: manufacturer 0x927, part 0x0002, revision 2
-   4.390 <-- pico-sdk: 2.3.0
-   6.393 --> nosuchcommand
-   6.669 <-- nosuchcommand
-   6.670 <-- dbg read_line:39 got nosuchcommand
-   6.671 <-- err handle_command:77 unknown command: nosuchcommand
+   0.130 <-- enable
+   0.131 <-- dbg read_line:39 got enable
+   0.131 <-- inf handle_command:60 led on
+   2.134 --> disable
+   2.291 <-- disable
+   2.292 <-- dbg read_line:39 got disable
+   2.292 <-- inf handle_command:65 led off
+   4.295 --> info
+   4.392 <-- info
+   4.392 <-- dbg read_line:39 got info
+   4.393 <-- project: es-led-module
+   4.393 <-- repo: https://github.com/prichinenko/es-student
+   4.394 <-- board: pico
+   4.394 <-- serial: 5045538400A2710C
+   4.395 <-- chip: manufacturer 0x927, part 0x0002, revision 2
+   4.395 <-- pico-sdk: 2.3.0
+   6.397 --> nosuchcommand
+   6.674 <-- nosuchcommand
+   6.674 <-- dbg read_line:39 got nosuchcommand
+   6.675 <-- err handle_command:77 unknown command: nosuchcommand
 итог: отправлено команд 4, принято строк 17
