@@ -3,25 +3,30 @@
 устройство: 2e8a:000a
 серийный номер: 5045538400A2710C
 порт: /dev/ttyACM0
-начало: 2026-09-21T20:17:07
+начало: 2026-09-21T20:25:51
    0.000 --> enable
-   0.134 <-- enable
-   0.134 <-- dbg read_line:100 got enable
-   0.134 <-- inf cmd_enable:33 led on
-   2.136 --> disable
-   2.295 <-- disable
-   2.295 <-- dbg read_line:100 got disable
+   0.135 <-- enable
+   0.135 <-- dbg read_line:100 got enable
+   0.136 <-- inf cmd_enable:33 led on
+   2.138 --> disable
+   2.296 <-- disable
+   2.296 <-- dbg read_line:100 got disable
    2.296 <-- inf cmd_disable:39 led off
    4.299 --> info
-   4.396 <-- info
-   4.396 <-- dbg read_line:100 got info
-   4.397 <-- device: es-led-module 1.0.0, built Sep 21 2026 19:47:58, log level 3
-   6.400 --> ping
-   6.497 <-- ping
-   6.497 <-- dbg read_line:100 got ping
-   6.497 <-- pong
-   8.500 --> nosuchcommand
-   8.778 <-- nosuchcommand
-   8.779 <-- dbg read_line:100 got nosuchcommand
+   4.397 <-- info
+   4.397 <-- dbg read_line:100 got info
+   4.398 <-- project: es-led-module
+   4.398 <-- repo: https://github.com/prichinenko/es-student
+   4.398 <-- board: pico
+   4.399 <-- serial: 5045538400A2710C
+   4.399 <-- chip: manufacturer 0x927, part 0x0002, revision 2
+   4.400 <-- pico-sdk: 2.3.0
+   6.402 --> ping
+   6.498 <-- ping
+   6.499 <-- dbg read_line:100 got ping
+   6.499 <-- pong
+   8.503 --> nosuchcommand
+   8.779 <-- nosuchcommand
+   8.780 <-- dbg read_line:100 got nosuchcommand
    8.780 <-- err handle_command:81 unknown command: nosuchcommand
-итог: отправлено команд 5, принято строк 15
+итог: отправлено команд 5, принято строк 20

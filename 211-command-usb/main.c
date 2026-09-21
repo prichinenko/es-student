@@ -41,12 +41,12 @@ void cmd_disable(void)
 
 void cmd_info(void)
 {
-    log_version();
+    device_info();
 }
 
 void cmd_version(void)
 {
-    device_info();
+    log_version();
 }
 
 void cmd_ping(void)
