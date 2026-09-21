@@ -7,6 +7,13 @@
 
 #define LINE_SIZE 32
 
+typedef void (*command_handler_t)(void);
+struct command_t
+{
+    const char *name;
+    command_handler_t handler;
+};
+
 const uint8_t BUTTON_PIN = 24;
 const uint8_t DEBUONCE_MS = 20;
 
@@ -18,6 +25,60 @@ bool get_button_debounce(uint pin)
     bool state = gpio_get(pin);
     sleep_ms(DEBUONCE_MS);
     return state && gpio_get(pin);
+}
+
+void cmd_enable(void)
+{
+    led_set(true);
+    LOG_INF("led %s\n", led_is_on() ? "on" : "off");
+}
+
+void cmd_disable(void)
+{
+    led_set(false);
+    LOG_INF("led %s\n", led_is_on() ? "on" : "off");
+}
+
+void cmd_info(void)
+{
+    log_version();
+}
+
+void cmd_version(void)
+{
+    device_info();
+}
+
+void cmd_ping(void)
+{
+    printf("pong\n");
+}
+
+const struct command_t commands[] = {
+    {"enable", cmd_enable},
+    {"disable", cmd_disable},
+    {"info", cmd_info},
+    {"version", cmd_version},
+    {"ping", cmd_ping},
+};
+#define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
+
+void handle_command(const char *command)
+{
+    for (uint i = 0; i < COMMAND_COUNT; i++)
+    {
+        if (strcmp(command, commands[i].name) == 0)
+        {
+            if (commands[i].handler != NULL)
+            {
+                commands[i].handler();
+            }
+
+            return;
+        }
+    }
+
+    LOG_ERR("unknown command: %s\n", command);
 }
 
 void read_line(void)
@@ -49,32 +110,6 @@ void read_line(void)
         line[line_length] = (char)symbol;
         line_length = line_length + 1;
         putchar(symbol);
-    }
-}
-
-void handle_command(const char *command)
-{
-    if (strcmp(command, "enable") == 0)
-    {
-        led_set(true);
-        LOG_INF("led %s\n", led_is_on() ? "on" : "off");
-    }
-    else if (strcmp(command, "disable") == 0)
-    {
-        led_set(false);
-        LOG_INF("led %s\n", led_is_on() ? "on" : "off");
-    }
-    else if (strcmp(command, "info") == 0)
-    {
-        device_info();
-    }
-    else if (strcmp(command, "version") == 0)
-    {
-        log_version();
-    }
-    else
-    {
-        LOG_ERR("unknown command: %s\n", command);
     }
 }
 

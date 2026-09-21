@@ -1,0 +1,27 @@
+задание: 2.1.2
+проект: 211-command-usb
+устройство: 2e8a:000a
+серийный номер: 5045538400A2710C
+порт: /dev/ttyACM0
+начало: 2026-09-21T20:17:07
+   0.000 --> enable
+   0.134 <-- enable
+   0.134 <-- dbg read_line:100 got enable
+   0.134 <-- inf cmd_enable:33 led on
+   2.136 --> disable
+   2.295 <-- disable
+   2.295 <-- dbg read_line:100 got disable
+   2.296 <-- inf cmd_disable:39 led off
+   4.299 --> info
+   4.396 <-- info
+   4.396 <-- dbg read_line:100 got info
+   4.397 <-- device: es-led-module 1.0.0, built Sep 21 2026 19:47:58, log level 3
+   6.400 --> ping
+   6.497 <-- ping
+   6.497 <-- dbg read_line:100 got ping
+   6.497 <-- pong
+   8.500 --> nosuchcommand
+   8.778 <-- nosuchcommand
+   8.779 <-- dbg read_line:100 got nosuchcommand
+   8.780 <-- err handle_command:81 unknown command: nosuchcommand
+итог: отправлено команд 5, принято строк 15
