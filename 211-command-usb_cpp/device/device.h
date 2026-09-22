@@ -1,4 +1,5 @@
 #pragma once
+#include <stdint.h>
 
 #define DEVICE_NAME "es-led-module"
 #define FIRMWARE_VERSION "1.0.0"

@@ -136,6 +136,10 @@ void read_line(void)
 
 int main()
 {
+    device_card.version = 0x00010000;
+    device_card.revision = 2;
+    strcpy(device_card.name, DEVICE_NAME);
+
     stdio_init_all();
 
     led_init();
