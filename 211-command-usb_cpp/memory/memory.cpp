@@ -1,5 +1,8 @@
 #include "memory.h"
+#include "command.h"
+#include "device.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "hardware/flash.h"
 #include "hardware/sync.h"
 #include "pico/stdlib.h"
@@ -17,6 +20,9 @@ extern char __bss_end__;
 extern char __HeapLimit;
 extern char __StackBottom;
 extern char __StackTop;
+
+uint32_t data_variable = 100;
+uint32_t bss_variable;
 
 static void row(const char *name, uintptr_t start, uintptr_t end)
 {

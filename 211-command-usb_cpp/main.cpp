@@ -5,15 +5,16 @@
 #include "memory.h"
 #include <stdio.h>
 #include <string.h>
+#include "command.h"
 
 #define LINE_SIZE 32
 
-typedef void (*command_handler_t)(void);
-struct command_t
-{
-    const char *name;
-    command_handler_t handler;
-};
+// typedef void (*command_handler_t)(void);
+// struct command_t
+// {
+//     const char *name;
+//     command_handler_t handler;
+// };
 
 const uint8_t BUTTON_PIN = 24;
 const uint8_t DEBUONCE_MS = 20;
@@ -68,11 +69,12 @@ const struct command_t commands[] = {
     {"ping", cmd_ping},
     {"mem_info", cmd_mem_info},
 };
-#define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
+// #define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
+const uint command_count = sizeof(commands) / sizeof(commands[0]);
 
 void handle_command(const char *command)
 {
-    for (uint i = 0; i < COMMAND_COUNT; i++)
+    for (uint i = 0; i < command_count; i++)
     {
         if (strcmp(command, commands[i].name) == 0)
         {
