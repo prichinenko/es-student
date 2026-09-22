@@ -1,5 +1,4 @@
 #include "device.h"
-#include "led.h"
 #include <stdio.h>
 #include <stddef.h>
 #include "pico/unique_id.h"
@@ -57,23 +56,4 @@ void dev_info(void)
 
     unsigned fields = sizeof(device_card.version) + sizeof(device_card.name) + sizeof(device_card.revision);
     printf("fields %u, sizeof %u, padding %u\n", fields, sizeof(device_card), sizeof(device_card) - fields);
-}
-
-void boot_info(void)
-{
-    const uint32_t *vectors = (const uint32_t *)VECTOR_TABLE;
-
-    uint32_t stack_top = vectors[0];
-    uint32_t reset_handler = vectors[1];
-
-    volatile uint32_t *gpio_in = (uint32_t *)(SIO_BASE + SIO_GPIO_IN_OFFSET);
-    uint32_t level = (*gpio_in >> led_pin()) & 1u;
-
-    printf("vector table\t0x%08x\n", VECTOR_TABLE);
-    printf("  stack top\t0x%08x\n", stack_top);
-    printf("  reset    \t0x%08x\n", reset_handler);
-    printf("  reset (even)\t0x%08x\n", reset_handler & ~1u);
-    printf("gpio in  \t0x%08x\n", gpio_in);
-    printf("  led bit\t%u\n", level);
-    printf("  gpio_get\t%u\n", gpio_get(led_pin()));
 }
