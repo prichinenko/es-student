@@ -149,6 +149,9 @@ void mem_info(void)
 
 void fw_info(void)
 {
+    ++data_variable;
+    ++bss_variable;
+
     uint32_t stack_variable = 1946;
     uint32_t *heap_variable = malloc(sizeof(uint32_t));
 

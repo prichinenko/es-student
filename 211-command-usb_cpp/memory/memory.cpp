@@ -24,6 +24,8 @@ extern char __StackTop;
 uint32_t data_variable = 100;
 uint32_t bss_variable;
 
+int main(void);
+
 static void row(const char *name, uintptr_t start, uintptr_t end)
 {
     printf("%-10s 0x%08x 0x%08x %8u\n",
@@ -143,4 +145,41 @@ void mem_info(void)
     {
         printf("chip flash size  %u bytes (2^%u)\n", real, rx[2]);
     }
+}
+
+void fw_info(void)
+{
+    ++data_variable;
+    ++bss_variable;
+
+    uint32_t stack_variable = 1946;
+    uint32_t *heap_variable = (uint32_t *)malloc(sizeof(uint32_t));
+
+    uint16_t *main_code = (uint16_t *)((uintptr_t)main & ~1u);
+    uint16_t *fw_info_code = (uint16_t *)((uintptr_t)fw_info & ~1u);
+
+    if (heap_variable != NULL)
+    {
+        *heap_variable = 1951;
+    }
+
+    printf("object\taddres\tvalue\n");
+
+    printf("main\t0x%08x\t0x%04x\n", (uintptr_t)main, *main_code);
+    printf("fw_info\t0x%08x\t0x%04x\n", (uintptr_t)fw_info, *fw_info_code);
+
+    printf("commands\t0x%08x\n", (uintptr_t)commands);
+    for (uint i = 0; i < command_count; ++i)
+    {
+        printf("- %s\t0x%08x\n", commands[i].name, (uintptr_t)commands[i].handler);
+    }
+
+    printf("DEVICE_PROJECT\t0x%08x\t%s\n", (uintptr_t)&DEVICE_PROJECT, DEVICE_PROJECT);
+    printf("DEVICE_BOARD\t0x%08x\t%s\n", (uintptr_t)&DEVICE_BOARD, DEVICE_BOARD);
+    printf("data_variable\t0x%08x\t%d\n", (uintptr_t)&data_variable, data_variable);
+    printf("bss_variable\t0x%08x\t%d\n", (uintptr_t)&bss_variable, bss_variable);
+    printf("stack_variable\t0x%08x\t%d\n", (uintptr_t)&stack_variable, stack_variable);
+    printf("heap_variable\t0x%08x\t%d\n", (uintptr_t)heap_variable, *heap_variable);
+
+    free(heap_variable);
 }
