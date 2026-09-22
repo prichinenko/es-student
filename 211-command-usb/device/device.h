@@ -16,6 +16,8 @@
 #define PICO_SDK_VERSION_STRING "unknown"
 #endif
 
+#define VECTOR_TABLE 0x10000100
+
 struct info_t
 {
     uint32_t version;
@@ -27,3 +29,4 @@ extern struct info_t device_card;
 
 void device_info(void);
 void dev_info(void);
+void boot_info(void);
