@@ -14,5 +14,14 @@
 #define PICO_SDK_VERSION_STRING "unknown"
 #endif
 
+struct info_t
+{
+    uint8_t revision;
+    uint32_t version;
+    char name[13];
+};
+
+extern struct info_t device_card;
 
 void device_info(void);
+void dev_info(void);

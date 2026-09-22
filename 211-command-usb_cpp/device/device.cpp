@@ -1,5 +1,5 @@
 #include "device.h"
-
+#include <stddef.h>
 #include <stdio.h>
 #include "pico/unique_id.h"
 #include "hardware/regs/addressmap.h"
