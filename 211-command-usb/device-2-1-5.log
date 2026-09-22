@@ -3,14 +3,14 @@
 устройство: 2e8a:000a
 серийный номер: 5045538400A2710C
 порт: /dev/ttyACM0
-начало: 2026-09-22T10:27:32
+начало: 2026-09-22T10:30:43
    0.000 --> dev_info
-   0.174 <-- dev_info
-   0.174 <-- dbg read_line:120 got dev_info
-   0.175 <-- struct          address    size  offset value
-   0.175 <-- device_card     0x20000c00    20
-   0.176 <-- - version       0x20000c00     4      0 0x00010000
-   0.177 <-- - name          0x20000c04    13      4 es-cmd-usb
-   0.177 <-- - revision      0x20000c11     1     17 2
-   0.178 <-- fields 18, siseof 20, padding 2
+   0.167 <-- dev_info
+   0.167 <-- dbg read_line:120 got dev_info
+   0.168 <-- struct          address    size  offset value
+   0.169 <-- device_card     0x20000c00    20
+   0.169 <-- - version       0x20000c00     4      0 0x00010000
+   0.170 <-- - name          0x20000c04    13      4 es-cmd-usb
+   0.170 <-- - revision      0x20000c11     1     17 2
+   0.171 <-- fields 18, sizeof 20, padding 2
 итог: отправлено команд 1, принято строк 8
