@@ -16,8 +16,6 @@
 #define PICO_SDK_VERSION_STRING "unknown"
 #endif
 
-#define VECTOR_TABLE 0x10000100
-
 struct info_t
 {
     uint32_t version;

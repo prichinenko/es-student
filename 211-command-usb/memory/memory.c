@@ -9,6 +9,8 @@
 #include "pico/stdlib.h"
 #include "hardware/regs/addressmap.h"
 
+#define VECTOR_TABLE 0x10000100
+
 extern char __flash_binary_start;
 extern char __flash_binary_end;
 extern char __boot2_start__;
@@ -195,11 +197,11 @@ void boot_info(void)
     volatile uint32_t *gpio_in = (uint32_t *)(SIO_BASE + SIO_GPIO_IN_OFFSET);
     uint32_t level = (*gpio_in >> led_pin()) & 1u;
 
-    printf("vector table\t0x%08x\n", VECTOR_TABLE);
-    printf("  stack top\t0x%08x\n", stack_top);
-    printf("  reset    \t0x%08x\n", reset_handler);
-    printf("  reset (even)\t0x%08x\n", reset_handler & ~1u);
-    printf("gpio in  \t0x%08x\n", gpio_in);
-    printf("  led bit\t%u\n", level);
-    printf("  gpio_get\t%u\n", gpio_get(led_pin()));
+    printf("%s-15\t0x%08x\n", "vector table", VECTOR_TABLE);
+    printf("%15s\t0x%08x\n", "  stack top", stack_top);
+    printf("%15s\t0x%08x\n", "  reset", reset_handler);
+    printf("%15s\t0x%08x\n", "  reset (even)", reset_handler & ~1u);
+    printf("%-15s\t0x%08x\n", "gpio in", gpio_in);
+    printf("%15s\t%u\n", "  led bit", level);
+    printf("%15s\t%u\n", "  gpio_get", gpio_get(led_pin()));
 }
