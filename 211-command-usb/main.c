@@ -164,8 +164,6 @@ int main()
 
         read_line();
 
-        // int command = getchar_timeout_us(0);
-
         // if (command == PICO_ERROR_TIMEOUT)
         // {
         //     continue;
