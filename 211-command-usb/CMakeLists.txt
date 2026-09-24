@@ -26,6 +26,7 @@ add_executable(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     pico_stdlib
     pico_unique_id
+    pico_bootsel_via_double_reset
 )
 
 
