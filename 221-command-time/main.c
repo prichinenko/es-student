@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "command.h"
+#include "clock.h"
 
 #define LINE_SIZE 32
 
@@ -76,6 +77,11 @@ void cmd_boot_info(void)
     boot_info();
 }
 
+void cmd_clk_info(void)
+{
+    clk_info();
+}
+
 const struct command_t commands[] = {
     {"enable", cmd_enable},
     {"disable", cmd_disable},
@@ -86,6 +92,7 @@ const struct command_t commands[] = {
     {"fw_info", cmd_fw_info},
     {"dev_info", cmd_dev_info},
     {"boot_info", cmd_boot_info},
+    {"clk_info", cmd_clk_info},
 };
 const uint command_count = sizeof(commands) / sizeof(commands[0]);
 
@@ -110,7 +117,6 @@ void handle_command(const char *command)
 void read_line(void)
 {
     int symbol = getchar_timeout_us(0);
-    int stopSymbol = 4;
 
     if (symbol == PICO_ERROR_TIMEOUT)
     {
