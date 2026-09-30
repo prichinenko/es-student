@@ -8,6 +8,11 @@ static void row(const char *name, uint32_t set_khz, uint32_t measured_khz)
     printf("%-8s %9u %12u\n", name, (unsigned)set_khz, (unsigned)measured_khz);
 }
 
+void uptime(void)
+{
+    printf("uptime: %llu ms\n", time_us_64() / 1000);
+}
+
 void clk_info(void)
 {
     printf("%-8s %-9s %-12s\n", "signal", "set_khz", "measured_khz");

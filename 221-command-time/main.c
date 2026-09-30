@@ -10,36 +10,21 @@
 
 #define LINE_SIZE 32
 
-// typedef void (*command_handler_t)(void);
-// struct command_t
-// {
-//     const char *name;
-//     command_handler_t handler;
-// };
-
-const uint8_t BUTTON_PIN = 24;
-const uint8_t DEBUONCE_MS = 20;
+const uint BLINK_HALF_PERIOD_MS = 500;
+uint64_t last_toggle_us = 0;
 
 char line[LINE_SIZE];
 uint line_length = 0;
 
-bool get_button_debounce(uint pin)
+void blink(void)
 {
-    bool state = gpio_get(pin);
-    sleep_ms(DEBUONCE_MS);
-    return state && gpio_get(pin);
-}
+    uint64_t now_us = time_us_64();
 
-void cmd_enable(void)
-{
-    led_set(true);
-    LOG_INF("led %s\n", led_is_on() ? "on" : "off");
-}
-
-void cmd_disable(void)
-{
-    led_set(false);
-    LOG_INF("led %s\n", led_is_on() ? "on" : "off");
+    if (now_us - last_toggle_us >= BLINK_HALF_PERIOD_MS * 1000)
+    {
+        last_toggle_us = now_us;
+        led_toggle();
+    }
 }
 
 void cmd_info(void)
@@ -83,8 +68,6 @@ void cmd_clk_info(void)
 }
 
 const struct command_t commands[] = {
-    {"enable", cmd_enable},
-    {"disable", cmd_disable},
     {"info", cmd_info},
     {"version", cmd_version},
     {"ping", cmd_ping},
@@ -93,6 +76,7 @@ const struct command_t commands[] = {
     {"dev_info", cmd_dev_info},
     {"boot_info", cmd_boot_info},
     {"clk_info", cmd_clk_info},
+    {"uptime", uptime},
 };
 const uint command_count = sizeof(commands) / sizeof(commands[0]);
 
@@ -151,33 +135,12 @@ int main()
     stdio_init_all();
 
     led_init();
-    gpio_init(BUTTON_PIN);
-    gpio_set_dir(BUTTON_PIN, GPIO_IN);
-    gpio_pull_up(BUTTON_PIN);
-
-    bool previous = false;
+    // led_set(true);
 
     while (1)
     {
-        bool current = get_button_debounce(BUTTON_PIN);
-
-        if (previous && !current)
-        {
-            led_toggle();
-            LOG_INF("led %s\n", led_is_on() ? "on" : "off");
-        }
-
-        previous = current;
-
+        blink();
         read_line();
-
-        // if (command == PICO_ERROR_TIMEOUT)
-        // {
-        //     continue;
-        // }
-
-        // LOG_DBG("got %c\n", command);
-        // handle_command(command);
     }
 
     return 0;
