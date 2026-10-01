@@ -124,6 +124,8 @@ const struct command_t commands[] = {
     {"calc_pi", cmd_calc_pi},
     {"main_time_exec", cmd_main_time_exec},
     {"main_time_reset", cmd_main_time_reset},
+    {"clk_sys_low", clk_sys_low},
+    {"clk_sys_default", clk_sys_default},
 };
 
 const uint command_count = sizeof(commands) / sizeof(commands[0]);
