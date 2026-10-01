@@ -3,24 +3,24 @@
 устройство: 2e8a:000a
 серийный номер: 50031519A098540C
 порт: /dev/ttyACM0
-начало: 2026-09-30T22:41:26
+начало: 2026-10-01T08:06:11
    0.000 --> clk_info
-   0.168 <-- clk_info
-   0.169 <-- dbg read_line:133 got clk_info
-   0.169 <-- signal   set_khz   measured_khz
-   0.170 <-- clk_ref      12000        12001
-   0.171 <-- clk_sys     125000       125001
-   0.172 <-- clk_peri    125000       125000
-   0.174 <-- clk_usb      48000        48000
-   0.175 <-- clk_adc      48000        48000
-   0.176 <-- rosc             0         5780
-   2.179 --> info
-   2.276 <-- info
-   2.276 <-- dbg read_line:133 got info
-   2.277 <-- project: 221-command-time
-   2.278 <-- repo: https://github.com/prichinenko/es-student
-   2.278 <-- board: pico
-   2.278 <-- serial: 50031519A098540C
-   2.279 <-- chip: manufacturer 0x927, part 0x0002, revision 2
-   2.279 <-- pico-sdk: 2.3.0
+   0.001 <-- clk_info
+   0.001 <-- dbg read_line:164 got clk_info
+   0.002 <-- signal   set_khz   measured_khz
+   0.003 <-- clk_ref      12000        12001
+   0.004 <-- clk_sys     125000       125000
+   0.005 <-- clk_peri    125000       125000
+   0.006 <-- clk_usb      48000        48000
+   0.007 <-- clk_adc      48000        48000
+   0.008 <-- rosc             0         5778
+   2.012 --> info
+   2.012 <-- info
+   2.012 <-- dbg read_line:164 got info
+   2.013 <-- project: 221-command-time
+   2.014 <-- repo: https://github.com/prichinenko/es-student
+   2.014 <-- board: pico
+   2.014 <-- serial: 50031519A098540C
+   2.015 <-- chip: manufacturer 0x927, part 0x0002, revision 2
+   2.015 <-- pico-sdk: 2.3.0
 итог: отправлено команд 2, принято строк 17
