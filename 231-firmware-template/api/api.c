@@ -9,15 +9,6 @@
 #include "profiling.h"
 #include "pico/time.h"
 
-typedef void (*api_callback_t)(const command_t *command);
-
-typedef struct
-{
-    const char *name;
-    api_callback_t callback;
-    const char *help;
-} api_command_t;
-
 // Число без знака из десятичной записи. false — в записи не только цифры
 // или число не помещается в uint32_t.
 static bool parse_u32(const char *text, uint32_t *value)

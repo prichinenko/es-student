@@ -56,24 +56,6 @@ void blink(void)
     }
 }
 
-void handle_command(const char *command)
-{
-    for (uint i = 0; i < command_count; i++)
-    {
-        if (strcmp(command, commands[i].name) == 0)
-        {
-            if (commands[i].handler != NULL)
-            {
-                commands[i].handler();
-            }
-
-            return;
-        }
-    }
-
-    LOG_ERR("unknown command: %s\n", command);
-}
-
 void core1_entry()
 {
     // Инициализация, специфичная для Core 1
