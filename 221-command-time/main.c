@@ -111,6 +111,11 @@ void cmd_main_time_exec(void)
     printf("iteration avg %.2f us, max %u us\n", profiling_avg_us(), (unsigned)profiling_max_us());
 }
 
+void cmd_clk_sys_overclock(void)
+{
+    clk_sys_overclock(250000);
+}
+
 const struct command_t commands[] = {
     {"info", cmd_info},
     {"version", cmd_version},
@@ -126,6 +131,7 @@ const struct command_t commands[] = {
     {"main_time_reset", cmd_main_time_reset},
     {"clk_sys_low", clk_sys_low},
     {"clk_sys_default", clk_sys_default},
+    {"clk_sys_overclock", cmd_clk_sys_overclock},
 };
 
 const uint command_count = sizeof(commands) / sizeof(commands[0]);
@@ -180,6 +186,16 @@ void read_line(void)
     }
 }
 
+void core1_entry()
+{
+    // Инициализация, специфичная для Core 1
+    while (1)
+    {
+        // Основной цикл Core 1
+        blink();
+    }
+}
+
 int main()
 {
     stdio_init_all();
@@ -187,10 +203,13 @@ int main()
     led_init();
     profiling_init();
 
+    // Запускаем Core 1. Он начнёт выполнять core1_entry()
+    multicore_launch_core1(core1_entry);
+
     while (1)
     {
         profiling_iteration();
-        blink();
+        // blink();
         read_line();
     }
 

@@ -50,3 +50,15 @@ void clk_sys_default(void)
 {
     clk_sys_set(SYS_CLK_KHZ);
 }
+
+void clk_sys_overclock(uint32_t khz)
+{
+    clk_sys_set(khz);
+    clock_configure(
+        clk_peri,
+        0,                                                // без glitchless mux
+        CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_CLKSRC_PLL_SYS, // источник — системный PLL
+        khz * 1000,                                       // входная частота
+        khz * 1000                                        // выходная (без делителя)
+    );
+}
