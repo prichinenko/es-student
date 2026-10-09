@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/device/device.c
     ${CMAKE_CURRENT_SOURCE_DIR}/profiling/profiling.c
     ${CMAKE_CURRENT_SOURCE_DIR}/api/api.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/api/api-callbacks.c
     ${CMAKE_CURRENT_SOURCE_DIR}/stdio-text-protocol/stdio-text-protocol.c
 )
 
