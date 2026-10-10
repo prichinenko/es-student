@@ -65,7 +65,16 @@ void led_task_set_state(led_state_t state)
     // запоминаем состояние и выполняем действие при входе:
     // «выключен» — гасим, «горит» — зажигаем, «мигает» — первое переключение сразу
     led_state = state;
-    led_set(state == LED_STATE_OFF ? false : true);
+    // led_set(state == LED_STATE_OFF ? false : true);
+    switch (state)
+    {
+    case LED_STATE_OFF:
+        led_set(false);
+        break;
+    case LED_STATE_ON:
+    default:
+        led_set(true);
+    }
     last_toggle_us = time_us_64();
 }
 
