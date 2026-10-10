@@ -36,27 +36,6 @@ double calc_pi(uint terms)
 
 volatile double pi_result;
 
-// void cmd_calc_pi(void)
-// {
-//     uint64_t start_us = time_us_64();
-//     pi_result = calc_pi(CALC_PI_TERMS);
-//     uint64_t spent_us = time_us_64() - start_us;
-
-//     printf("pi: %.8f\n", pi_result);
-//     printf("time: %llu ms\n", spent_us / 1000);
-// }
-
-void blink(void)
-{
-    uint64_t now_us = time_us_64();
-
-    if (now_us - last_toggle_us >= BLINK_HALF_PERIOD_MS * 1000)
-    {
-        last_toggle_us = now_us;
-        led_toggle();
-    }
-}
-
 void core1_entry()
 {
     // Инициализация, специфичная для Core 1

@@ -19,6 +19,17 @@ static bool led_get(void)
     return (bool)gpio_get(PICO_DEFAULT_LED_PIN);
 }
 
+bool period_elapsed(uint64_t *last_us, uint64_t period_us)
+{
+    uint64_t now_us = time_us_64();
+    if ((now_us - *last_us) >= period_us)
+    {
+        *last_us = now_us;
+        return true;
+    }
+    return false;
+}
+
 bool led_task_set_period_ms(uint32_t period_ms)
 {
     // С нулевым полупериодом светодиод переключался бы
@@ -28,8 +39,13 @@ bool led_task_set_period_ms(uint32_t period_ms)
         return false;
     }
 
-    half_period_us = (uint64_t)period_ms * 1000 / 2;
+    half_period_us = (uint64_t)period_ms * 1000 >> 1;
     return true;
+}
+
+uint32_t led_task_get_period_ms()
+{
+    return (half_period_us << 1) * 1000;
 }
 
 void led_task_init(void)
@@ -63,11 +79,9 @@ void led_task_handle(void)
     switch (led_state)
     {
     case LED_STATE_BLINK:
-        uint64_t now_us = time_us_64();
         // printf("led_task_handle (%llu)\n", (unsigned long long)(now_us - last_toggle_us));
-        if (now_us - last_toggle_us >= half_period_us)
+        if (period_elapsed(&last_toggle_us, half_period_us))
         {
-            last_toggle_us = now_us;
             led_set(!led_get());
         }
         break;
