@@ -2,6 +2,7 @@
 #include "led.h"
 #include "log.h"
 #include "device.h"
+#include "led-task.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -62,15 +63,15 @@ void core1_entry()
     while (1)
     {
         // Основной цикл Core 1
-        blink();
+        led_task_handle();
     }
 }
 
 int main()
 {
     stdio_init_all();
+    led_task_init();
 
-    led_init();
     profiling_init();
 
     // Запускаем Core 1. Он начнёт выполнять core1_entry()
@@ -78,6 +79,7 @@ int main()
 
     while (1)
     {
+        // led_task_handle();
 
         // принятая строка становится командой, команда — действием прибора
         const command_t *command = stdio_text_protocol_handle();

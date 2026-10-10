@@ -1,5 +1,6 @@
 #include "api.h"
 #include "device.h"
+#include "led-task.h"
 #include "profiling.h"
 #include "pico/time.h"
 
@@ -17,6 +18,10 @@ void cmd_calc_pi(const command_t *command);
 void cmd_calc_pi(const command_t *command);
 void cmd_main_time_exec(const command_t *command);
 void cmd_main_time_reset(const command_t *command);
+void cmd_led_enable(const command_t *command);
+void cmd_led_disable(const command_t *command);
+void cmd_led_blink(const command_t *command);
+void cmd_led_period(const command_t *command);
 
 const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
@@ -25,6 +30,10 @@ const api_command_t api_commands[] = {
     {"calc_pi", "calculate pi: calc_pi [terms]", cmd_calc_pi},
     {"main_time_exec", "superloop iteration: average and maximum", cmd_main_time_exec},
     {"main_time_reset", "superloop iteration: average and maximum", cmd_main_time_reset},
+    {"led_enable", "led on", cmd_led_enable},
+    {"led_disable", "led off", cmd_led_disable},
+    {"led_blink", "led blink", cmd_led_blink},
+    {"led_period", "led peruid ms: led_period [period]", cmd_led_period},
 };
 
 const uint32_t api_commands_count = sizeof(api_commands) / sizeof(api_commands[0]);
@@ -102,4 +111,30 @@ void cmd_help(const command_t *command)
     {
         printf("%-16s %s\n", api_commands[i].name, api_commands[i].help);
     }
+}
+
+void cmd_led_enable(const command_t *command)
+{
+    led_task_set_state(LED_STATE_ON);
+}
+
+void cmd_led_disable(const command_t *command)
+{
+    led_task_set_state(LED_STATE_OFF);
+}
+
+void cmd_led_blink(const command_t *command)
+{
+    led_task_set_state(LED_STATE_BLINK);
+}
+
+void cmd_led_period(const command_t *command)
+{
+    uint32_t period = 0;
+    if (command->argc != 1 || !parse_u32(command->argv[0], &period))
+    {
+        printf("error: usage led_period [period]\n");
+        return;
+    }
+    led_task_set_period_ms(period);
 }
