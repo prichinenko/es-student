@@ -130,7 +130,7 @@ void cmd_pi_start(const command_t *command)
     }
     else
     {
-        printf("error: pi busy\n");
+        printf("error: pi is busy\n");
     }
 }
 
