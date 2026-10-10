@@ -3,6 +3,7 @@
 #include "log.h"
 #include "device.h"
 #include "led-task.h"
+#include "button-task.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -43,6 +44,7 @@ void core1_entry()
     {
         // Основной цикл Core 1
         led_task_handle();
+        button_task_handle();
     }
 }
 
@@ -50,6 +52,7 @@ int main()
 {
     stdio_init_all();
     led_task_init();
+    button_task_init();
 
     profiling_init();
 

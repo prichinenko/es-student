@@ -24,9 +24,10 @@ bool period_elapsed(uint64_t *last_us, uint64_t period_us)
     uint64_t now_us = time_us_64();
     if ((now_us - *last_us) >= period_us)
     {
-        while (*last_us + period_us < now_us)
+        uint64_t correct_last_us = (*last_us += period_us);
+        while ((correct_last_us = *last_us + period_us) < now_us)
         {
-            *last_us += period_us;
+            *last_us = correct_last_us;
         }
         return true;
     }
@@ -46,9 +47,14 @@ bool led_task_set_period_ms(uint32_t period_ms)
     return true;
 }
 
-uint32_t led_task_get_period_ms()
+uint32_t led_task_get_period_ms(void)
 {
     return (half_period_us << 1) * 1000;
+}
+
+void led_task_next_state(void)
+{
+    led_set(!led_get());
 }
 
 void led_task_init(void)
