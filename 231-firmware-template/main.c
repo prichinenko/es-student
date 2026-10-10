@@ -4,6 +4,7 @@
 #include "device.h"
 #include "led-task.h"
 #include "button-task.h"
+#include "pi-task.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -53,6 +54,7 @@ int main()
     stdio_init_all();
     led_task_init();
     button_task_init();
+    pi_task_init();
 
     profiling_init();
 
@@ -61,7 +63,7 @@ int main()
 
     while (1)
     {
-        // led_task_handle();
+        pi_task_handle();
 
         // принятая строка становится командой, команда — действием прибора
         const command_t *command = stdio_text_protocol_handle();

@@ -2,6 +2,7 @@
 #include "device.h"
 #include "led-task.h"
 #include "button-task.h"
+#include "pi-task.h"
 #include "profiling.h"
 #include "pico/time.h"
 
@@ -15,8 +16,8 @@
 void cmd_help(const command_t *command);
 void cmd_info(const command_t *command);
 void cmd_uptime(const command_t *command);
-void cmd_calc_pi(const command_t *command);
-void cmd_calc_pi(const command_t *command);
+void cmd_pi_start(const command_t *command);
+void cmd_pi(const command_t *command);
 void cmd_main_time_exec(const command_t *command);
 void cmd_main_time_reset(const command_t *command);
 void cmd_led_enable(const command_t *command);
@@ -29,7 +30,6 @@ const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
     {"info", "device passport", cmd_info},
     {"uptime", "time since reset", cmd_uptime},
-    {"calc_pi", "calculate pi: calc_pi [terms]", cmd_calc_pi},
     {"main_time_exec", "superloop iteration: average and maximum", cmd_main_time_exec},
     {"main_time_reset", "superloop iteration: average and maximum", cmd_main_time_reset},
     {"led_enable", "led on", cmd_led_enable},
@@ -37,6 +37,8 @@ const api_command_t api_commands[] = {
     {"led_blink", "led blink", cmd_led_blink},
     {"led_period", "led peruid ms: led_period [period]", cmd_led_period},
     {"button", "button status", cmd_button},
+    {"pi_start", "start calculate pi: pi_start [terms]", cmd_pi_start},
+    {"pi", "pi result", cmd_pi},
 };
 
 const uint32_t api_commands_count = sizeof(api_commands) / sizeof(api_commands[0]);
@@ -106,6 +108,49 @@ void cmd_calc_pi(const command_t *command)
 
     printf("pi: %.8f\n", pi_result);
     printf("time: %llu ms\n", spent_us / 1000);
+}
+
+void cmd_pi_start(const command_t *command)
+{
+    uint32_t terms = 1000000;
+    if (command->argc > 0)
+    {
+        parse_u32(command->argv[0], &terms);
+    }
+
+    if (terms <= 0)
+    {
+        printf("error: usage calc_pi [terms]\n");
+        return;
+    }
+
+    if (pi_task_start(terms))
+    {
+        printf("pi: started, %u terms\n", (unsigned int)terms);
+    }
+    else
+    {
+        printf("error: pi busy\n");
+    }
+}
+
+void cmd_pi(const command_t *command)
+{
+    pi_task_result_t result = pi_task_get_result();
+    switch (result.state)
+    {
+    case PI_STATE_NOT_STARTED:
+        printf("pi: not_started\n");
+        break;
+
+    case PI_STATE_PROCESS:
+        printf("pi: runing\n");
+        break;
+
+    case PI_STATE_FINISH:
+        printf("pi: %.8f in %llu ms\n", result.pi, result.time / 1000);
+        break;
+    }
 }
 
 void cmd_help(const command_t *command)
