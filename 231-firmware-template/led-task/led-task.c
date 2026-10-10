@@ -24,7 +24,10 @@ bool period_elapsed(uint64_t *last_us, uint64_t period_us)
     uint64_t now_us = time_us_64();
     if ((now_us - *last_us) >= period_us)
     {
-        *last_us = now_us;
+        while (*last_us + period_us < now_us)
+        {
+            *last_us += period_us;
+        }
         return true;
     }
     return false;
