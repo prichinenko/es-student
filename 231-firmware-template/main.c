@@ -13,6 +13,11 @@
 #include "stdio-text-protocol.h"
 #include "api.h"
 
+typedef enum
+{
+    LOOP
+} profiling_result_main_t;
+
 const uint BLINK_HALF_PERIOD_MS = 500;
 uint64_t last_toggle_us = 0;
 
