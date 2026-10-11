@@ -18,8 +18,6 @@ void cmd_info(const command_t *command);
 void cmd_uptime(const command_t *command);
 void cmd_pi_start(const command_t *command);
 void cmd_pi(const command_t *command);
-void cmd_main_time_exec(const command_t *command);
-void cmd_main_time_reset(const command_t *command);
 void cmd_led_enable(const command_t *command);
 void cmd_led_disable(const command_t *command);
 void cmd_led_blink(const command_t *command);
@@ -32,8 +30,6 @@ const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
     {"info", "device passport", cmd_info},
     {"uptime", "time since reset", cmd_uptime},
-    {"main_time_exec", "superloop iteration: average and maximum", cmd_main_time_exec},
-    {"main_time_reset", "superloop iteration: average and maximum", cmd_main_time_reset},
     {"led_enable", "led on", cmd_led_enable},
     {"led_disable", "led off", cmd_led_disable},
     {"led_blink", "led blink", cmd_led_blink},
@@ -86,17 +82,6 @@ void cmd_info(const command_t *command)
         (unsigned int)info.chip_part,
         (unsigned int)info.chip_revision);
     printf("pico-sdk: %s\n", info.pico_sdk);
-}
-
-void cmd_main_time_reset(const command_t *command)
-{
-    profiling_reset_max();
-    printf("max reset\n");
-}
-
-void cmd_main_time_exec(const command_t *command)
-{
-    printf("iteration avg %.2f us, max %u us\n", profiling_avg_us(), (unsigned)profiling_max_us());
 }
 
 void cmd_clk_sys_overclock(const command_t *command)
