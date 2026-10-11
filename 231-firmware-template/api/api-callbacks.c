@@ -1,9 +1,10 @@
 #include "api.h"
-#include "device.h"
+#include "device/device.h"
+#include "systime/systime.h"
 #include "led-task.h"
 #include "button-task.h"
 #include "pi-task.h"
-#include "profiling.h"
+#include "profiling/profiling.h"
 #include "pico/time.h"
 
 #include <stdlib.h>
@@ -91,7 +92,7 @@ void cmd_clk_sys_overclock(const command_t *command)
 
 void cmd_uptime(const command_t *command)
 {
-    printf("uptime: %llu ms\n", time_us_64() / 1000);
+    printf("uptime: %llu ms\n", (long long unsigned int)systime_ms());
 }
 
 extern double calc_pi(uint terms);
@@ -103,9 +104,9 @@ void cmd_calc_pi(const command_t *command)
         printf("error: usage calc_pi [terms]\n");
         return;
     }
-    uint64_t start_us = time_us_64();
+    uint64_t start_us = systime_us();
     double pi_result = calc_pi(terms);
-    uint64_t spent_us = time_us_64() - start_us;
+    uint64_t spent_us = systime_us() - start_us;
 
     printf("pi: %.8f\n", pi_result);
     printf("time: %llu ms\n", spent_us / 1000);
@@ -198,7 +199,7 @@ void cmd_button(const command_t *command)
 
 void cmd_profiling(const command_t *command)
 {
-
+#if PROFILING_ENABLED
     for (uint32_t id = 0; id < STOPWATCH_COUNT; ++id)
     {
         profiling_result_t result;
@@ -210,6 +211,9 @@ void cmd_profiling(const command_t *command)
             result.avg_us,
             (unsigned int)result.max_us);
     }
+#else
+    printf("profiling is disabled in this build\n");
+#endif
 }
 
 void cmd_profiling_reset(const command_t *command)

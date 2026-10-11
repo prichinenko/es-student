@@ -1,7 +1,7 @@
 #include "main.h"
 #include "led.h"
-#include "log.h"
-#include "device.h"
+#include "logging/logging.h"
+#include "device/device.h"
 #include "led-task.h"
 #include "button-task.h"
 #include "pi-task.h"
@@ -9,8 +9,8 @@
 #include <stdint.h>
 #include <string.h>
 #include "command.h"
-#include "profiling.h"
-#include "stdio-text-protocol.h"
+#include "profiling/profiling.h"
+#include "stdio-text-protocol/stdio-text-protocol.h"
 #include "api.h"
 
 typedef enum
