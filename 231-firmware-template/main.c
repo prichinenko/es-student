@@ -1,4 +1,5 @@
 #include "main.h"
+#include "firmware.h"
 #include "led.h"
 #include "logging/logging.h"
 #include "device/device.h"
@@ -73,7 +74,7 @@ int main()
     profiling_stopwatch_init(STOPWATCH_BUTTON, "button");
     profiling_stopwatch_init(STOPWATCH_PI, "pi");
 
-    LOG_INF("%s %s\n", DEVICE_NAME, FIRMWARE_VERSION);
+    LOG_INF("%s %s\n", FIRMWARE_NAME, FIRMWARE_VERSION);
 
     // Запускаем Core 1. Он начнёт выполнять core1_entry()
     multicore_launch_core1(core1_entry);

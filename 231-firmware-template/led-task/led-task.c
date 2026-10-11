@@ -1,4 +1,5 @@
 #include "led-task.h"
+#include "systime/systime.h"
 
 #include "pico/stdlib.h"
 #include <stdio.h>
@@ -21,7 +22,7 @@ static bool led_get(void)
 
 bool period_elapsed(uint64_t *last_us, uint64_t period_us)
 {
-    uint64_t now_us = time_us_64();
+    uint64_t now_us = systime_us();
     if ((now_us - *last_us) >= period_us)
     {
         uint64_t correct_last_us = (*last_us += period_us);
@@ -81,7 +82,7 @@ void led_task_set_state(led_state_t state)
     default:
         led_set(true);
     }
-    last_toggle_us = time_us_64();
+    last_toggle_us = systime_us();
 }
 
 led_state_t led_task_get_state(void)
