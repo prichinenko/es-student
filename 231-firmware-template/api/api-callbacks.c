@@ -25,6 +25,8 @@ void cmd_led_disable(const command_t *command);
 void cmd_led_blink(const command_t *command);
 void cmd_led_period(const command_t *command);
 void cmd_button(const command_t *command);
+void cmd_profiling(const command_t *command);
+void cmd_profiling_reset(const command_t *command);
 
 const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
@@ -39,6 +41,8 @@ const api_command_t api_commands[] = {
     {"button", "button status", cmd_button},
     {"pi_start", "start calculate pi: pi_start [terms]", cmd_pi_start},
     {"pi", "pi result", cmd_pi},
+    {"profiling", "profiling", cmd_profiling},
+    {"profiling_reset", "profiling reset", cmd_profiling_reset},
 };
 
 const uint32_t api_commands_count = sizeof(api_commands) / sizeof(api_commands[0]);
@@ -69,7 +73,19 @@ static bool parse_u32(const char *text, uint32_t *value)
 
 void cmd_info(const command_t *command)
 {
-    device_info();
+    device_info_t info;
+    device_get_info(&info);
+
+    printf("project: %s\n", info.project);
+    printf("repo: %s\n", info.repo);
+    printf("board: %s\n", info.board);
+    printf("serial: %s\n", info.serial);
+    printf(
+        "chip: manufacturer 0x%03x, part 0x%04x, revision %u\n",
+        (unsigned int)info.chip_manufacturer,
+        (unsigned int)info.chip_part,
+        (unsigned int)info.chip_revision);
+    printf("pico-sdk: %s\n", info.pico_sdk);
 }
 
 void cmd_main_time_reset(const command_t *command)
@@ -193,4 +209,25 @@ void cmd_button(const command_t *command)
         "button: %s, presses %u\n",
         button_task_is_pressed() ? "pressed" : "released",
         (unsigned int)button_task_get_press_count());
+}
+
+void cmd_profiling(const command_t *command)
+{
+
+    for (uint32_t id = 0; id < STOPWATCH_COUNT; ++id)
+    {
+        profiling_result_t result;
+        profiling_get(id, &result);
+        printf(
+            "%-18s\tcount %u\tmean %f us\tmax %u us\n",
+            result.name,
+            (unsigned int)result.n,
+            result.avg_us,
+            (unsigned int)result.max_us);
+    }
+}
+
+void cmd_profiling_reset(const command_t *command)
+{
+    profiling_reset();
 }
