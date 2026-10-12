@@ -97,7 +97,7 @@ static void cmd_pi_start(const command_t *command)
     uint32_t terms = 1000000;
     if (command->argc > 1)
     {
-        printf("error: usage calc_pi [terms]\n");
+        printf("error: usage pi_start [terms]\n");
         return;
     }
 
@@ -105,7 +105,7 @@ static void cmd_pi_start(const command_t *command)
     {
         if (!parse_u32(command->argv[0], &terms))
         {
-            printf("error: usage calc_pi [terms]\n");
+            printf("error: usage pi_start [terms]\n");
             return;
         }
     }
@@ -195,7 +195,7 @@ static void cmd_led_period(const command_t *command)
     uint32_t period = 0;
     if (command->argc != 1 || !parse_u32(command->argv[0], &period))
     {
-        printf("error: usage led_period [period]\n");
+        printf("error: usage led_period <period_ms>\n");
         return;
     }
     if (!period)
@@ -236,4 +236,5 @@ static void cmd_profiling(const command_t *command)
 static void cmd_profiling_reset(const command_t *command)
 {
     profiling_reset();
+    printf("profiling reset\n");
 }

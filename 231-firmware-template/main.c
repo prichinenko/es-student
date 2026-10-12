@@ -69,7 +69,7 @@ int main()
     pi_task_init();
 
     profiling_stopwatch_init(STOPWATCH_LOOP, "loop");
-    profiling_stopwatch_init(STOPWATCH_COMMAND, "comman");
+    profiling_stopwatch_init(STOPWATCH_COMMAND, "command");
     profiling_stopwatch_init(STOPWATCH_LED, "led");
     profiling_stopwatch_init(STOPWATCH_BUTTON, "button");
     profiling_stopwatch_init(STOPWATCH_PI, "pi");
