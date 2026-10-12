@@ -18,18 +18,20 @@ static button_state_t last_state;
 static uint64_t last_toggle_us;
 static uint32_t debuonce_us;
 static uint32_t press_count;
+static void (*button_task_callback_button_press)(void);
 
 static button_state_t get_state(void)
 {
     return platform_button_read() ? BUTTON_STATE_PRESSED : BUTTON_STATE_RELEASED;
 }
 
-void button_task_init(void)
+void button_task_init(void (*callback_button_press)(void))
 {
     last_state = get_state();
     last_toggle_us = systime_us();
     press_count = 0;
     debuonce_us = 20000;
+    button_task_callback_button_press = callback_button_press;
 }
 
 void button_task_handle(void)
@@ -73,6 +75,10 @@ void button_task_handle(void)
             if (now - last_toggle_us > debuonce_us)
             {
                 last_state = BUTTON_STATE_PRESSED;
+                if (button_task_callback_button_press)
+                {
+                    button_task_callback_button_press();
+                }
                 press_count++;
             }
         }

@@ -13,18 +13,18 @@
 #include <string.h>
 #include <stdint.h>
 
-void cmd_help(const command_t *command);
-void cmd_info(const command_t *command);
-void cmd_uptime(const command_t *command);
-void cmd_pi_start(const command_t *command);
-void cmd_pi(const command_t *command);
-void cmd_led_enable(const command_t *command);
-void cmd_led_disable(const command_t *command);
-void cmd_led_blink(const command_t *command);
-void cmd_led_period(const command_t *command);
-void cmd_button(const command_t *command);
-void cmd_profiling(const command_t *command);
-void cmd_profiling_reset(const command_t *command);
+static void cmd_help(const command_t *command);
+static void cmd_info(const command_t *command);
+static void cmd_uptime(const command_t *command);
+static void cmd_pi_start(const command_t *command);
+static void cmd_pi(const command_t *command);
+static void cmd_led_enable(const command_t *command);
+static void cmd_led_disable(const command_t *command);
+static void cmd_led_blink(const command_t *command);
+static void cmd_led_period(const command_t *command);
+static void cmd_button(const command_t *command);
+static void cmd_profiling(const command_t *command);
+static void cmd_profiling_reset(const command_t *command);
 
 const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
@@ -67,7 +67,7 @@ static bool parse_u32(const char *text, uint32_t *value)
     return true;
 }
 
-void cmd_info(const command_t *command)
+static void cmd_info(const command_t *command)
 {
     device_info_t info;
     device_get_info(&info);
@@ -84,34 +84,12 @@ void cmd_info(const command_t *command)
     printf("pico-sdk: %s\n", info.pico_sdk);
 }
 
-void cmd_clk_sys_overclock(const command_t *command)
-{
-    // clk_sys_overclock(250000);
-}
-
-void cmd_uptime(const command_t *command)
+static void cmd_uptime(const command_t *command)
 {
     printf("uptime: %llu ms\n", (long long unsigned int)systime_ms());
 }
 
-extern double calc_pi(uint32_t terms);
-void cmd_calc_pi(const command_t *command)
-{
-    uint32_t terms = 0;
-    if (command->argc != 1 || !parse_u32(command->argv[0], &terms))
-    {
-        printf("error: usage calc_pi [terms]\n");
-        return;
-    }
-    uint64_t start_us = systime_us();
-    double pi_result = calc_pi(terms);
-    uint64_t spent_us = systime_us() - start_us;
-
-    printf("pi: %.8f\n", pi_result);
-    printf("time: %llu ms\n", spent_us / 1000);
-}
-
-void cmd_pi_start(const command_t *command)
+static void cmd_pi_start(const command_t *command)
 {
     uint32_t terms = 1000000;
     if (command->argc > 0)
@@ -135,7 +113,7 @@ void cmd_pi_start(const command_t *command)
     }
 }
 
-void cmd_pi(const command_t *command)
+static void cmd_pi(const command_t *command)
 {
     pi_task_result_t result = pi_task_get_result();
     switch (result.state)
@@ -154,7 +132,7 @@ void cmd_pi(const command_t *command)
     }
 }
 
-void cmd_help(const command_t *command)
+static void cmd_help(const command_t *command)
 {
     for (uint32_t i = 0; i < api_commands_count; i++)
     {
@@ -162,22 +140,22 @@ void cmd_help(const command_t *command)
     }
 }
 
-void cmd_led_enable(const command_t *command)
+static void cmd_led_enable(const command_t *command)
 {
     led_task_set_state(LED_STATE_ON);
 }
 
-void cmd_led_disable(const command_t *command)
+static void cmd_led_disable(const command_t *command)
 {
     led_task_set_state(LED_STATE_OFF);
 }
 
-void cmd_led_blink(const command_t *command)
+static void cmd_led_blink(const command_t *command)
 {
     led_task_set_state(LED_STATE_BLINK);
 }
 
-void cmd_led_period(const command_t *command)
+static void cmd_led_period(const command_t *command)
 {
     uint32_t period = 0;
     if (command->argc != 1 || !parse_u32(command->argv[0], &period))
@@ -188,7 +166,7 @@ void cmd_led_period(const command_t *command)
     led_task_set_period_ms(period);
 }
 
-void cmd_button(const command_t *command)
+static void cmd_button(const command_t *command)
 {
     printf(
         "button: %s, presses %u\n",
@@ -196,7 +174,7 @@ void cmd_button(const command_t *command)
         (unsigned int)button_task_get_press_count());
 }
 
-void cmd_profiling(const command_t *command)
+static void cmd_profiling(const command_t *command)
 {
 #if PROFILING_ENABLED
     for (uint32_t id = 0; id < STOPWATCH_COUNT; ++id)
@@ -215,7 +193,7 @@ void cmd_profiling(const command_t *command)
 #endif
 }
 
-void cmd_profiling_reset(const command_t *command)
+static void cmd_profiling_reset(const command_t *command)
 {
     profiling_reset();
 }

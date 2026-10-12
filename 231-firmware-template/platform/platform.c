@@ -19,7 +19,7 @@ void platform_init(void)
 
 void platform_led_set(bool on)
 {
-    gpio_put(LED_PIN, !on);
+    gpio_put(LED_PIN, on);
 }
 
 bool platform_led_get(void)
