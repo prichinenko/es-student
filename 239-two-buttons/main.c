@@ -72,8 +72,8 @@ int main()
     platform_init();
 
     led_task_init();
-    button_task_init(0, led_task_next_state);
-    button_task_init(1, NULL);
+    button_task_init(0, led_task_next_state, led_task_blink);
+    button_task_init(1, led_task_next_period, NULL);
     pi_task_init();
 
     profiling_stopwatch_init(STOPWATCH_LOOP, "loop");

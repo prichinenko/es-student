@@ -17,6 +17,7 @@ void led_task_handle(void);
 void led_task_set_state(led_state_t state);
 void led_task_next_state(void);
 void led_task_next_period(void);
+void led_task_blink(void);
 led_state_t led_task_get_state(void);
 
 // false — период не принят

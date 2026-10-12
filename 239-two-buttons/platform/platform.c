@@ -10,9 +10,12 @@ void platform_init(void)
 {
     stdio_init_all();
 
-    gpio_init(BUTTON_PIN);
-    gpio_set_dir(BUTTON_PIN, GPIO_IN);
-    gpio_pull_up(BUTTON_PIN);
+    for (uint32_t btn = 0; btn < 2; btn++)
+    {
+        gpio_init(button_pin[btn]);
+        gpio_set_dir(button_pin[btn], GPIO_IN);
+        gpio_pull_up(button_pin[btn]);
+    }
 
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
@@ -26,7 +29,7 @@ void platform_led_set(bool on)
 
 bool platform_led_get(void)
 {
-    return !gpio_get(LED_PIN);
+    return gpio_get(LED_PIN);
 }
 
 bool platform_button_read(uint32_t btn)

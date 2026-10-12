@@ -1,5 +1,6 @@
 #include "button-task.h"
 #include "systime/systime.h"
+#include "logging/log.h"
 #include "platform.h"
 
 #include <stdio.h>
@@ -12,8 +13,6 @@ typedef enum
     BUTTON_STATE_PRESS,
 } button_state_t;
 
-// button_state_t button_state;
-
 typedef struct
 {
     button_state_t last_state;
@@ -21,28 +20,28 @@ typedef struct
     uint32_t debuonce_us;
     uint32_t press_count;
     void (*button_task_callback_button_press)(void);
+    void (*button_task_callback_button_long_press)(void);
+    bool is_long_press;
 } button_item_t;
 
 static button_item_t buttons[2];
 
-// static button_state_t last_state;
-// static uint64_t last_toggle_us;
-// static uint32_t debuonce_us;
-// static uint32_t press_count;
-// static void (*button_task_callback_button_press)(void);
+static const uint32_t long_press_us = 1000000;
 
 static button_state_t get_state(uint32_t btn)
 {
     return platform_button_read(btn) ? BUTTON_STATE_PRESSED : BUTTON_STATE_RELEASED;
 }
 
-void button_task_init(uint32_t btn, void (*callback_button_press)(void))
+void button_task_init(uint32_t btn, void (*callback_button_press)(void), void (*callback_button_log_press)(void))
 {
     buttons[btn].last_state = get_state(btn);
     buttons[btn].last_toggle_us = systime_us();
     buttons[btn].press_count = 0;
     buttons[btn].debuonce_us = 20000;
     buttons[btn].button_task_callback_button_press = callback_button_press;
+    buttons[btn].button_task_callback_button_long_press = callback_button_log_press;
+    buttons[btn].is_long_press = false;
 }
 
 void button_task_handle(void)
@@ -52,10 +51,10 @@ void button_task_handle(void)
         button_state_t button_state_now = get_state(btn);
         uint64_t now = systime_us();
 
-        if (buttons[btn].last_state == button_state_now)
-        {
-            return;
-        }
+        // if (buttons[btn].last_state == button_state_now)
+        // {
+        //     continue;
+        // }
 
         // printf("btn: %u (%u)\n", button_state_now, last_state);
 
@@ -66,6 +65,20 @@ void button_task_handle(void)
             {
                 buttons[btn].last_state = BUTTON_STATE_RELEASE;
                 buttons[btn].last_toggle_us = now;
+                if (!buttons[btn].is_long_press && buttons[btn].button_task_callback_button_press)
+                {
+                    buttons[btn].button_task_callback_button_press();
+                }
+                buttons[btn].is_long_press = false;
+            }
+            else if (
+                button_state_now == BUTTON_STATE_PRESSED && !buttons[btn].is_long_press && (now - buttons[btn].last_toggle_us) > long_press_us)
+            {
+                buttons[btn].is_long_press = true;
+                if (buttons[btn].button_task_callback_button_long_press)
+                {
+                    buttons[btn].button_task_callback_button_long_press();
+                }
             }
             break;
 
@@ -78,6 +91,8 @@ void button_task_handle(void)
             break;
 
         case BUTTON_STATE_PRESS:
+            buttons[btn].is_long_press = false;
+            // LOG_INF("BUTTON_STATE_PRESS\n");
             if (button_state_now == BUTTON_STATE_RELEASED)
             {
                 buttons[btn].last_state = BUTTON_STATE_RELEASED;
@@ -88,16 +103,13 @@ void button_task_handle(void)
                 if (now - buttons[btn].last_toggle_us > buttons[btn].debuonce_us)
                 {
                     buttons[btn].last_state = BUTTON_STATE_PRESSED;
-                    if (buttons[btn].button_task_callback_button_press)
-                    {
-                        buttons[btn].button_task_callback_button_press();
-                    }
                     buttons[btn].press_count++;
                 }
             }
             break;
 
         case BUTTON_STATE_RELEASE:
+            buttons[btn].is_long_press = false;
             if (button_state_now == BUTTON_STATE_PRESSED)
             {
                 buttons[btn].last_state = BUTTON_STATE_PRESSED;

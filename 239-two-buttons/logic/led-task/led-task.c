@@ -56,6 +56,11 @@ uint32_t led_task_get_period_ms(void)
     return (half_period_us << 1) / 1000;
 }
 
+void led_task_blink(void)
+{
+    led_task_set_state(LED_STATE_BLINK);
+}
+
 void led_task_next_state(void)
 {
     led_task_set_state((uint32_t)!led_state);
@@ -105,12 +110,14 @@ void led_task_handle(void)
     // «выключен» и «горит» — ничего не делаем, светодиод установлен при входе
     // «мигает» — каждые полпериода переключаем светодиод
 
+    // printf("state (%d)\n", (int)led_state);
     switch (led_state)
     {
     case LED_STATE_BLINK:
-        // printf("led_task_handle (%llu)\n", (unsigned long long)(now_us - last_toggle_us));
+        // printf("led_task_handle (%llu)\n", (unsigned long long)period_elapsed(&last_toggle_us, half_period_us));
         if (period_elapsed(&last_toggle_us, half_period_us))
         {
+            // printf("state (%d): %d\n", (int)led_state, (int)led_get());
             led_set(!led_get());
         }
         break;
