@@ -1,18 +1,17 @@
 #include "main.h"
 #include "firmware.h"
-#include "led.h"
 #include "logging/logging.h"
 #include "device/device.h"
-#include "led-task.h"
-#include "button-task.h"
-#include "pi-task.h"
+#include "led-task/led-task.h"
+#include "button-task/button-task.h"
+#include "pi-task/pi-task.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#include "command.h"
+#include "platform.h"
 #include "profiling/profiling.h"
 #include "stdio-text-protocol/stdio-text-protocol.h"
-#include "api.h"
+#include "api/api.h"
 
 typedef enum
 {
@@ -26,7 +25,7 @@ uint64_t last_toggle_us = 0;
 // 1 000 000 членов по 585 тактов при 125 МГц — около 4,7 с
 const uint CALC_PI_TERMS = 1000000;
 
-double calc_pi(uint terms)
+double calc_pi(uint32_t terms)
 {
     double sum = 0.0;
     double sign = 1.0;
@@ -63,7 +62,8 @@ void core1_entry()
 
 int main()
 {
-    stdio_init_all();
+    platform_init();
+
     led_task_init();
     button_task_init();
     pi_task_init();

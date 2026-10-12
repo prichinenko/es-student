@@ -1,11 +1,10 @@
-#include "api.h"
+#include "api/api.h"
 #include "device/device.h"
 #include "systime/systime.h"
-#include "led-task.h"
-#include "button-task.h"
-#include "pi-task.h"
+#include "led-task/led-task.h"
+#include "button-task/button-task.h"
+#include "pi-task/pi-task.h"
 #include "profiling/profiling.h"
-#include "pico/time.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -95,7 +94,7 @@ void cmd_uptime(const command_t *command)
     printf("uptime: %llu ms\n", (long long unsigned int)systime_ms());
 }
 
-extern double calc_pi(uint terms);
+extern double calc_pi(uint32_t terms);
 void cmd_calc_pi(const command_t *command)
 {
     uint32_t terms = 0;

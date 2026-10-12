@@ -1,7 +1,7 @@
 #include "led-task.h"
 #include "systime/systime.h"
+#include "platform.h"
 
-#include "pico/stdlib.h"
 #include <stdio.h>
 
 // Состояние задачи: внутреннее связывание, только для этого файла
@@ -12,12 +12,12 @@ static uint64_t last_toggle_us;
 // Вспомогательная функция: из других файлов её не вызвать
 static void led_set(bool on)
 {
-    gpio_put(PICO_DEFAULT_LED_PIN, on);
+    platform_led_set(on);
 }
 
 static bool led_get(void)
 {
-    return (bool)gpio_get(PICO_DEFAULT_LED_PIN);
+    return platform_led_get();
 }
 
 bool period_elapsed(uint64_t *last_us, uint64_t period_us)
@@ -61,8 +61,6 @@ void led_task_next_state(void)
 void led_task_init(void)
 {
     // настраиваем вывод светодиода, период 1000 мс, состояние «мигает»
-    gpio_init(PICO_DEFAULT_LED_PIN);
-    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
     led_task_set_period_ms(1000);
     led_task_set_state(LED_STATE_BLINK);
 }

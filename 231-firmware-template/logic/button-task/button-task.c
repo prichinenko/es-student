@@ -1,6 +1,7 @@
 #include "button-task.h"
-#include "pico/stdlib.h"
 #include "systime/systime.h"
+#include "platform.h"
+
 #include <stdio.h>
 
 typedef enum
@@ -20,14 +21,11 @@ static uint32_t press_count;
 
 static button_state_t get_state(void)
 {
-    return gpio_get(BUTTON_PIN) ? BUTTON_STATE_RELEASED : BUTTON_STATE_PRESSED;
+    return platform_button_read() ? BUTTON_STATE_PRESSED : BUTTON_STATE_RELEASED;
 }
 
 void button_task_init(void)
 {
-    gpio_init(BUTTON_PIN);
-    gpio_set_dir(BUTTON_PIN, GPIO_IN);
-    gpio_pull_up(BUTTON_PIN);
     last_state = get_state();
     last_toggle_us = systime_us();
     press_count = 0;
