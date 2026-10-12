@@ -50,7 +50,7 @@ bool led_task_set_period_ms(uint32_t period_ms)
 
 uint32_t led_task_get_period_ms(void)
 {
-    return (half_period_us << 1) * 1000;
+    return (half_period_us << 1) / 1000;
 }
 
 void led_task_next_state(void)

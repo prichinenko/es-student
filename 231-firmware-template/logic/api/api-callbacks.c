@@ -73,6 +73,8 @@ static void cmd_info(const command_t *command)
     device_info_t info;
     device_get_info(&info);
 
+    printf("name: %s\n", info.name);
+    printf("version: %s\n", info.version);
     printf("project: %s\n", info.project);
     printf("repo: %s\n", info.repo);
     printf("board: %s\n", info.board);
