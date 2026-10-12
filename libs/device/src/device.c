@@ -16,6 +16,8 @@ void device_get_info(device_info_t *info)
     volatile uint32_t *chip_id = (uint32_t *)(SYSINFO_BASE + SYSINFO_CHIP_ID_OFFSET);
     uint32_t id = *chip_id;
 
+    info->name = FIRMWARE_NAME;
+    info->version = FIRMWARE_VERSION;
     info->project = FIRMWARE_PROJECT;
     info->repo = FIRMWARE_REPO;
     info->board = FIRMWARE_BOARD;

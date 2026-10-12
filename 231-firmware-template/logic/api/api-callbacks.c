@@ -93,14 +93,24 @@ static void cmd_uptime(const command_t *command)
 static void cmd_pi_start(const command_t *command)
 {
     uint32_t terms = 1000000;
-    if (command->argc > 0)
-    {
-        parse_u32(command->argv[0], &terms);
-    }
-
-    if (terms <= 0)
+    if (command->argc > 1)
     {
         printf("error: usage calc_pi [terms]\n");
+        return;
+    }
+
+    if (command->argc != 0)
+    {
+        if (!parse_u32(command->argv[0], &terms))
+        {
+            printf("error: usage calc_pi [terms]\n");
+            return;
+        }
+    }
+
+    if (terms == 0)
+    {
+        printf("error: terms must be greater than 0\n");
         return;
     }
 
@@ -120,11 +130,11 @@ static void cmd_pi(const command_t *command)
     switch (result.state)
     {
     case PI_STATE_NOT_STARTED:
-        printf("pi: not_started\n");
+        printf("pi: not started\n");
         break;
 
     case PI_STATE_PROCESS:
-        printf("pi: runing\n");
+        printf("pi: running\n");
         break;
 
     case PI_STATE_FINISH:
@@ -157,7 +167,7 @@ static char *led_state_string(void)
 
 static void print_led_info(void)
 {
-    printf("led: %s, period %u ms", led_state_string(), (unsigned int)led_task_get_period_ms());
+    printf("led: %s, period %u ms\n", led_state_string(), (unsigned int)led_task_get_period_ms());
 }
 
 static void cmd_led_enable(const command_t *command)
@@ -210,7 +220,7 @@ static void cmd_profiling(const command_t *command)
         profiling_result_t result;
         profiling_get(id, &result);
         printf(
-            "%-18s\tcount %u\tmean %f us\tmax %u us\n",
+            "%-18s\tcount %u\tmean %0.2f us\tmax %u us\n",
             result.name,
             (unsigned int)result.n,
             result.avg_us,

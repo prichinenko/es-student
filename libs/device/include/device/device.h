@@ -8,6 +8,8 @@
 
 typedef struct
 {
+    char *name;
+    char *version;
     char *project;
     char *repo;
     char *board;
@@ -18,12 +20,4 @@ typedef struct
     char *pico_sdk;
 } device_info_t;
 
-struct info_t
-{
-    uint32_t version;
-    char name[13];
-    uint8_t revision;
-};
-
-void device_info(void);
 void device_get_info(device_info_t *info);
