@@ -10,6 +10,7 @@
 #include <string.h>
 #include "platform.h"
 #include "profiling/profiling.h"
+#include "systime/systime.h"
 #include "stdio-text-protocol/stdio-text-protocol.h"
 #include "api/api.h"
 
@@ -45,18 +46,24 @@ volatile double pi_result;
 
 void core1_entry()
 {
+    uint64_t next_time = systime_us() + 500;
     // Инициализация, специфичная для Core 1
     while (1)
     {
         // Основной цикл Core 1
 
-        profiling_start(STOPWATCH_LED);
-        led_task_handle();
-        profiling_stop(STOPWATCH_LED);
+        if (systime_us() > next_time)
+        {
+            next_time = systime_us() + 500;
 
-        profiling_start(STOPWATCH_BUTTON);
-        button_task_handle();
-        profiling_stop(STOPWATCH_BUTTON);
+            profiling_start(STOPWATCH_LED);
+            led_task_handle();
+            profiling_stop(STOPWATCH_LED);
+
+            profiling_start(STOPWATCH_BUTTON);
+            button_task_handle();
+            profiling_stop(STOPWATCH_BUTTON);
+        }
     }
 }
 

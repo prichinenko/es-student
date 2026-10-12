@@ -30,15 +30,16 @@ static void pi_task_process(void)
         while (pi_k < pi_terms_step_end)
         {
             // Прибавить очередной член ряда: ±1 / (2k + 1)
-            pi_process_sum += pi_process_sign / (2.0 * pi_k + 1.0);
+            pi_process_sum += (double)pi_process_sign / ((double)(pi_k << 1) + 1.0);
             pi_process_sign = -pi_process_sign;
             pi_k++;
 
             // printf("%lu: %f\n", pi_k, pi_process_sum);
         }
 
-        if (pi_k == pi_terms)
+        if (pi_k >= pi_terms)
         {
+            pi_process_sum += 0.5 * (double)pi_process_sign / ((double)(pi_k << 1) + 1.0);
             pi = 4.0 * pi_process_sum;
             pi_time_finish = systime_us();
             pi_state = PI_STATE_FINISH;

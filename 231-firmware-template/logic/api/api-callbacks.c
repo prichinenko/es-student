@@ -140,7 +140,7 @@ static void cmd_pi(const command_t *command)
         break;
 
     case PI_STATE_FINISH:
-        printf("pi: %.8f in %llu ms\n", result.pi, result.time / 1000);
+        printf("pi: %.9f in %llu ms\n", result.pi, result.time / 1000);
         break;
     }
 }

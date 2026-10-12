@@ -16,6 +16,8 @@ void profiling_stopwatch_init(uint32_t id, const char *name)
     profiling_result[id].start_us = systime_us();
 }
 
+#if PROFILING_ENABLED
+
 void profiling_start(uint32_t id)
 {
     if (id >= STOPWATCH_COUNT)
@@ -41,6 +43,8 @@ void profiling_stop(uint32_t id)
         profiling_result[id].max_us = time_us;
     }
 }
+
+#endif
 
 // false — секундомер с таким номером не заведён
 bool profiling_get(uint32_t id, profiling_result_t *result)
