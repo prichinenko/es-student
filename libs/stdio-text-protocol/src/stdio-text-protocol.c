@@ -113,6 +113,7 @@ const command_t *stdio_text_protocol_handle(void)
         if (line_length > 0)
         {
             // putchar('\n');
+            printf("%s\n", line);
             const command_t *cmd = parse_command();
             line_length = 0;
             line_overflow = false;
