@@ -1,6 +1,6 @@
 #include "main.h"
 #include "firmware.h"
-#include "logging/logging.h"
+#include "logging/log.h"
 #include "device/device.h"
 #include "led-task/led-task.h"
 #include "button-task/button-task.h"
