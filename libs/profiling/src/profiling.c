@@ -1,5 +1,5 @@
 #include "profiling/profiling.h"
-#include "pico/time.h"
+#include "systime/systime.h"
 
 static profiling_result_t profiling_result[STOPWATCH_COUNT];
 
@@ -13,7 +13,7 @@ void profiling_stopwatch_init(uint32_t id, const char *name)
     profiling_result[id].n = 0;
     profiling_result[id].sum = 0;
     profiling_result[id].max_us = 0;
-    profiling_result[id].start_us = time_us_32();
+    profiling_result[id].start_us = systime_us();
 }
 
 void profiling_start(uint32_t id)
@@ -22,7 +22,7 @@ void profiling_start(uint32_t id)
     {
         return;
     }
-    profiling_result[id].start_us = time_us_32();
+    profiling_result[id].start_us = systime_us();
 }
 
 void profiling_stop(uint32_t id)
@@ -31,7 +31,7 @@ void profiling_stop(uint32_t id)
     {
         return;
     }
-    uint32_t stop_us = time_us_32();
+    uint32_t stop_us = systime_us();
     uint32_t time_us = stop_us - profiling_result[id].start_us;
     profiling_result[id].sum += time_us;
     profiling_result[id].n++;

@@ -8,6 +8,24 @@ add_compile_options(-Wall)
 
 # set(PICO_SDK_PATH "/hdd/data3/microcontrollers/rp2040/mfti/module_1/pico-sdk")
 
+
+# ── читаем firmware.h и вытаскиваем FIRMWARE_* ──────────────
+file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/firmware.h FIRMWARE_LINES
+     REGEX "^#define +FIRMWARE_[A-Z_]+ +\"")
+
+foreach(line IN LISTS FIRMWARE_LINES)
+    if(line MATCHES "FIRMWARE_([A-Z_]+) +\"([^\"]*)\"")
+        set("FW_${CMAKE_MATCH_1}" "${CMAKE_MATCH_2}")
+    endif()
+endforeach()
+
+# sanity-check: если что-то не нашлось — падаем с внятной ошибкой
+foreach(name NAME VERSION PROJECT REPO)
+    if(NOT DEFINED FW_${name})
+        message(FATAL_ERROR "firmware.h: не найден FIRMWARE_${name}")
+    endif()
+endforeach()
+
 set(PICO_BOARD pico_16m)
 set(PICO_PLATFORM rp2040)
 set(PICO_FLASH_SPI_CLKDIV 2)
@@ -55,16 +73,10 @@ target_link_libraries(logic
     PRIVATE profiling
 )
 
+target_link_libraries(profiling PRIVATE systime)
 
 add_executable(${PROJECT_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/main.c
-    # ${CMAKE_CURRENT_SOURCE_DIR}/led/led.c
-    # ${CMAKE_CURRENT_SOURCE_DIR}/api/api.c
-    # ${CMAKE_CURRENT_SOURCE_DIR}/api/api-callbacks.c
-    # ${CMAKE_CURRENT_SOURCE_DIR}/led-task/led-task.c
-    # ${CMAKE_CURRENT_SOURCE_DIR}/button-task/button-task.c
-    # ${CMAKE_CURRENT_SOURCE_DIR}/pi-task/pi-task.c
-    # ${CMAKE_CURRENT_SOURCE_DIR}/platform/platform.c
 )
 
 
@@ -87,15 +99,17 @@ target_compile_definitions(profiling PUBLIC
     PROFILING_ENABLED=1
 )
 
+target_compile_definitions(device PRIVATE
+    FIRMWARE_NAME="${FW_NAME}"
+    FIRMWARE_VERSION="${FW_VERSION}"
+    FIRMWARE_PROJECT="${FW_PROJECT}"
+    FIRMWARE_REPO="${FW_REPO}"
+    FIRMWARE_BOARD="${PICO_BOARD}"
+)
+
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
-    # ${CMAKE_CURRENT_SOURCE_DIR}/led
-    # ${CMAKE_CURRENT_SOURCE_DIR}/api
-    # ${CMAKE_CURRENT_SOURCE_DIR}/led-task
-    # ${CMAKE_CURRENT_SOURCE_DIR}/button-task
-    # ${CMAKE_CURRENT_SOURCE_DIR}/pi-task
-    # ${CMAKE_CURRENT_SOURCE_DIR}/platform
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE

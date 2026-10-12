@@ -69,6 +69,7 @@ static bool parse_u32(const char *text, uint32_t *value)
 
 static void cmd_info(const command_t *command)
 {
+
     device_info_t info;
     device_get_info(&info);
 

@@ -1,3 +1,4 @@
+// ./firmware.h
 #pragma once
 
 #define FIRMWARE_NAME "es-cmd-usb"
