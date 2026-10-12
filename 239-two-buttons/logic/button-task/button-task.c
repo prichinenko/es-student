@@ -33,7 +33,7 @@ static button_state_t get_state(uint32_t btn)
     return platform_button_read(btn) ? BUTTON_STATE_PRESSED : BUTTON_STATE_RELEASED;
 }
 
-void button_task_init(uint32_t btn, void (*callback_button_press)(void), void (*callback_button_log_press)(void))
+void button_task_init(uint32_t btn, button_callback_t callback_button_press, button_callback_t callback_button_log_press)
 {
     buttons[btn].last_state = get_state(btn);
     buttons[btn].last_toggle_us = systime_us();
