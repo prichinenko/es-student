@@ -55,7 +55,7 @@ uint32_t led_task_get_period_ms(void)
 
 void led_task_next_state(void)
 {
-    led_set(!led_get());
+    led_task_set_state((uint32_t)!led_state);
 }
 
 void led_task_init(void)

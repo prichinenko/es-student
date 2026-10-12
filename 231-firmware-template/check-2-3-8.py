@@ -83,7 +83,7 @@ def talk(board):
         started = time.monotonic()
         received = ""
         for frame, listen_s in STEPS:
-            print(f"frame: {show(frame)} ({listen_s})", flush=True)
+            print(f"==> frame: {show(frame)} ({listen_s})", flush=True)
             port.write(frame.encode("ascii"))
             exchange.append((time.monotonic() - started, "-->", printable(frame)))
             deadline = time.monotonic() + listen_s

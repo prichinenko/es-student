@@ -141,19 +141,41 @@ static void cmd_help(const command_t *command)
     }
 }
 
+static char *led_state_string(void)
+{
+    switch (led_task_get_state())
+    {
+    case LED_STATE_ON:
+        return "on";
+    case LED_STATE_OFF:
+        return "off";
+    case LED_STATE_BLINK:
+        return "blink";
+    }
+    return "";
+}
+
+static void print_led_info(void)
+{
+    printf("led: %s, period %u ms", led_state_string(), (unsigned int)led_task_get_period_ms());
+}
+
 static void cmd_led_enable(const command_t *command)
 {
     led_task_set_state(LED_STATE_ON);
+    print_led_info();
 }
 
 static void cmd_led_disable(const command_t *command)
 {
     led_task_set_state(LED_STATE_OFF);
+    print_led_info();
 }
 
 static void cmd_led_blink(const command_t *command)
 {
     led_task_set_state(LED_STATE_BLINK);
+    print_led_info();
 }
 
 static void cmd_led_period(const command_t *command)
@@ -164,7 +186,12 @@ static void cmd_led_period(const command_t *command)
         printf("error: usage led_period [period]\n");
         return;
     }
+    if (!period)
+    {
+        printf("error: period_ms must be greater than 0\n");
+    }
     led_task_set_period_ms(period);
+    print_led_info();
 }
 
 static void cmd_button(const command_t *command)
