@@ -222,7 +222,7 @@ static void cmd_profiling(const command_t *command)
         profiling_result_t result;
         profiling_get(id, &result);
         printf(
-            "%-18s\tcount %u\tmean %0.2f us\tmax %u us\n",
+            "%-8s count %u mean %.2f us max %u us\n",
             result.name,
             (unsigned int)result.n,
             result.avg_us,
