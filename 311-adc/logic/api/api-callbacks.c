@@ -245,5 +245,5 @@ static void cmd_profiling_reset(const command_t *command)
 
 static void cmd_get_voltage(const command_t *command)
 {
-    printf("voltage: %f V\n", platform_voltage_read());
+    printf("voltage: %.3f V\n", platform_voltage_read());
 }
