@@ -267,22 +267,31 @@ static void cmd_get_temp(const command_t *command)
 static void cmd_telemetry_start(const command_t *command)
 {
     uint32_t period = 0;
-    if (command->argc == 0 || !parse_u32(command->argv[0], &period))
+    if (command->argc == 0)
     {
         period = TELEMETRY_DEFAULT_PERIOD_MS;
     }
-    else if (command->argc == 1 || !parse_u32(command->argv[0], &period))
+    else if (command->argc == 1 && !parse_u32(command->argv[0], &period))
     {
+        telemetry_task_stop();
         printf("error: usage tm_start [<period_ms>]\n");
         return;
     }
     if (period < 10)
     {
+        telemetry_task_stop();
         printf("error: period_ms must be at least 10\n");
         return;
     }
-    telemetry_task_start(period);
-    printf("telemetry: started, period %d ms\n", (int)telemetry_task_get_period_ms());
+    if (telemetry_task_start(period))
+    {
+        printf("telemetry: started, period %d ms\n", (int)telemetry_task_get_period_ms());
+    }
+    else
+    {
+        telemetry_task_stop();
+        printf("error: period_ms must be at least 10\n");
+    }
 }
 
 static void cmd_telemetry_stop(const command_t *command)
