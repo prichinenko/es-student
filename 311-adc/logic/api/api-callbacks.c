@@ -273,7 +273,7 @@ static void cmd_telemetry_start(const command_t *command)
     }
     else if (command->argc == 1 || !parse_u32(command->argv[0], &period))
     {
-        printf("error: period_ms must be at least 10\n");
+        printf("error: usage tm_start [<period_ms>]\n");
         return;
     }
     if (period < 10)
@@ -282,11 +282,11 @@ static void cmd_telemetry_start(const command_t *command)
         return;
     }
     telemetry_task_start(period);
-    printf("telemetry: started, period %d ms", (int)telemetry_task_get_period_ms());
+    printf("telemetry: started, period %d ms\n", (int)telemetry_task_get_period_ms());
 }
 
 static void cmd_telemetry_stop(const command_t *command)
 {
     telemetry_task_stop();
-    printf("telemetry: stopped");
+    printf("telemetry: stopped\n");
 }
