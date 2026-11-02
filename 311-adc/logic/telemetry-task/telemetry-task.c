@@ -14,26 +14,11 @@ void telemetry_task_init(telemetry_task_callback_t on_record)
     telemetry_callback = on_record;
 }
 
-static bool period_elapsed(uint64_t *last_us, uint64_t period_us)
-{
-    uint64_t now_us = systime_us();
-    if ((now_us - *last_us) >= period_us)
-    {
-        uint64_t correct_last_us = (*last_us += period_us);
-        while ((correct_last_us = *last_us + period_us) < now_us)
-        {
-            *last_us = correct_last_us;
-        }
-        return true;
-    }
-    return false;
-}
-
 // вызывается на каждой итерации суперцикла, не ждёт
 void telemetry_task_handle(void)
 {
     uint64_t now = systime_us();
-    if (telemetry_state == TELEMETRY_STATE_RUN && period_elapsed(&telemetry_last_us, telemetry_period_ms * 1000))
+    if (telemetry_state == TELEMETRY_STATE_RUN && systime_period_elapsed(&telemetry_last_us, telemetry_period_ms * 1000))
     {
         if (telemetry_callback)
         {

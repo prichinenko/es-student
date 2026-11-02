@@ -271,7 +271,7 @@ static void cmd_telemetry_start(const command_t *command)
     {
         period = TELEMETRY_DEFAULT_PERIOD_MS;
     }
-    else if (command->argc == 1 && !parse_u32(command->argv[0], &period))
+    else if (command->argc > 1 || !parse_u32(command->argv[0], &period))
     {
         telemetry_task_stop();
         printf("error: usage tm_start [<period_ms>]\n");
