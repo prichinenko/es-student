@@ -17,13 +17,12 @@ void telemetry_task_init(telemetry_task_callback_t on_record)
 // вызывается на каждой итерации суперцикла, не ждёт
 void telemetry_task_handle(void)
 {
-    uint64_t now = systime_us();
     if (telemetry_state == TELEMETRY_STATE_RUN && systime_period_elapsed(&telemetry_last_us, telemetry_period_ms * 1000))
     {
         if (telemetry_callback)
         {
             telemetry_record_t record = {
-                .time_us = now,
+                .time_us = systime_us(),
                 .voltage_v = platform_voltage_read(),
                 .temp_c = platform_temp_read()};
             telemetry_callback(&record);
