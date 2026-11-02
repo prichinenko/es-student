@@ -35,6 +35,7 @@ bool telemetry_task_start(uint32_t period_ms)
 {
     if (period_ms >= 10)
     {
+        telemetry_last_us = 0;
         telemetry_period_ms = period_ms;
         telemetry_state = TELEMETRY_STATE_RUN;
         return true;
