@@ -5,10 +5,11 @@
 #include "led-task/led-task.h"
 #include "button-task/button-task.h"
 #include "pi-task/pi-task.h"
+#include "telemetry-task/telemetry-task.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#include "platform.h"
+#include "platform/platform.h"
 #include "profiling/profiling.h"
 #include "systime/systime.h"
 #include "stdio-text-protocol/stdio-text-protocol.h"
@@ -74,6 +75,7 @@ int main()
     led_task_init();
     button_task_init(led_task_next_state);
     pi_task_init();
+    telemetry_task_init(api_print_telemetry);
 
     profiling_stopwatch_init(STOPWATCH_LOOP, "loop");
     profiling_stopwatch_init(STOPWATCH_COMMAND, "command");
@@ -93,6 +95,8 @@ int main()
         profiling_start(STOPWATCH_PI);
         pi_task_handle();
         profiling_stop(STOPWATCH_PI);
+
+        telemetry_task_handle();
 
         profiling_start(STOPWATCH_COMMAND);
         // принятая строка становится командой, команда — действием прибора

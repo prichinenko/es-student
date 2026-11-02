@@ -6,6 +6,7 @@
 #include "pi-task/pi-task.h"
 #include "profiling/profiling.h"
 #include "platform/platform.h"
+#include "telemetry-task/telemetry-task.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -13,6 +14,8 @@
 #include <errno.h>
 #include <string.h>
 #include <stdint.h>
+
+#define TELEMETRY_DEFAULT_PERIOD_MS 100
 
 static void cmd_help(const command_t *command);
 static void cmd_info(const command_t *command);
@@ -31,6 +34,9 @@ static void cmd_get_voltage(const command_t *command);
 // температура у platform, ответ temp: <температура> C
 static void cmd_get_temp(const command_t *command);
 
+static void cmd_telemetry_start(const command_t *command);
+static void cmd_telemetry_stop(const command_t *command);
+
 const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
     {"info", "device passport", cmd_info},
@@ -46,6 +52,8 @@ const api_command_t api_commands[] = {
     {"profiling_reset", "profiling reset", cmd_profiling_reset},
     {"get_voltage", "voltage on GP26, ADC input 0", cmd_get_voltage},
     {"get_temp", "chip temperature, degrees Celsius", cmd_get_temp},
+    {"tm_start", "telemetry start [period]", cmd_telemetry_start},
+    {"tm_stop", "telemetry stop", cmd_telemetry_stop},
 };
 
 const uint32_t api_commands_count = sizeof(api_commands) / sizeof(api_commands[0]);
@@ -254,4 +262,31 @@ static void cmd_get_voltage(const command_t *command)
 static void cmd_get_temp(const command_t *command)
 {
     printf("temp: %.1f C\n", platform_temp_read());
+}
+
+static void cmd_telemetry_start(const command_t *command)
+{
+    uint32_t period = 0;
+    if (command->argc == 0 || !parse_u32(command->argv[0], &period))
+    {
+        period = TELEMETRY_DEFAULT_PERIOD_MS;
+    }
+    else if (command->argc == 1 || !parse_u32(command->argv[0], &period))
+    {
+        printf("error: period_ms must be at least 10\n");
+        return;
+    }
+    if (period < 10)
+    {
+        printf("error: period_ms must be at least 10\n");
+        return;
+    }
+    telemetry_task_start(period);
+    printf("telemetry: started, period %d ms", (int)telemetry_task_get_period_ms());
+}
+
+static void cmd_telemetry_stop(const command_t *command)
+{
+    telemetry_task_stop();
+    printf("telemetry: stopped");
 }

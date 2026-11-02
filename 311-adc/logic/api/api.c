@@ -30,3 +30,8 @@ void api_handle(const command_t *command)
     }
     printf("error: unknown command '%s', try help\n", command->name);
 }
+
+void api_print_telemetry(const telemetry_record_t *record)
+{
+    printf("tm: %llu %.3f %.1f\n", record->time_us, record->voltage_v, record->temp_c);
+}
