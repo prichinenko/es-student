@@ -28,6 +28,8 @@ static void cmd_profiling(const command_t *command);
 static void cmd_profiling_reset(const command_t *command);
 // напряжение на GP26 у platform, ответ voltage: <напряжение> V
 static void cmd_get_voltage(const command_t *command);
+// температура у platform, ответ temp: <температура> C
+static void cmd_get_temp(const command_t *command);
 
 const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
@@ -43,6 +45,7 @@ const api_command_t api_commands[] = {
     {"profiling", "profiling", cmd_profiling},
     {"profiling_reset", "profiling reset", cmd_profiling_reset},
     {"get_voltage", "voltage on GP26, ADC input 0", cmd_get_voltage},
+    {"get_temp", "chip temperature, degrees Celsius", cmd_get_temp},
 };
 
 const uint32_t api_commands_count = sizeof(api_commands) / sizeof(api_commands[0]);
@@ -246,4 +249,9 @@ static void cmd_profiling_reset(const command_t *command)
 static void cmd_get_voltage(const command_t *command)
 {
     printf("voltage: %.3f V\n", platform_voltage_read());
+}
+
+static void cmd_get_temp(const command_t *command)
+{
+    printf("temp: %.1f C\n", platform_temp_read());
 }
