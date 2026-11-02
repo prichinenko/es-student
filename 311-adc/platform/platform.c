@@ -5,6 +5,8 @@
 #define LED_PIN 25
 #define BUTTON_PIN 10
 
+#define CHARGE_PIN 22
+
 // вход АЦП: вывод GP26, канал 0
 #define ADC_PIN 26
 #define ADC_CHANNEL 0
@@ -27,6 +29,10 @@ void platform_init(void)
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
     platform_led_set(true);
+
+    gpio_init(CHARGE_PIN);
+    gpio_set_dir(CHARGE_PIN, GPIO_OUT);
+    platform_charge_set(false);
 
     adc_init();
     adc_gpio_init(ADC_PIN);
@@ -60,4 +66,9 @@ float platform_temp_read(void)
 {
     adc_select_input(ADC_TEMP_CHANNEL);
     return 27 - (adc_read() * ADC_VREF_V / ADC_LEVELS - 0.706) / 0.001721;
+}
+
+void platform_charge_set(bool on)
+{
+    gpio_put(CHARGE_PIN, on);
 }

@@ -16,3 +16,5 @@ float platform_voltage_read(void);
 
 // температура кристалла по встроенному датчику, градусы Цельсия
 float platform_temp_read(void);
+
+void platform_charge_set(bool on);
