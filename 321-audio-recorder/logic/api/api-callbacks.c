@@ -325,28 +325,29 @@ static void cmd_charge_off(const command_t *command)
 static void cmd_timer_blink_start(const command_t *command)
 {
     uint32_t period = 0;
-    const char *error = "error: period_ms must be 10..60000\n";
+    const char *error1 = "error: period_ms must be 10..60000\n";
+    const char *error2 = "error: usage timer_blink_start <period_ms>\n";
 
     if (command->argc == 0 || command->argc > 1 || !parse_u32(command->argv[0], &period))
     {
         (void)platform_blink_stop();
-        printf(error);
+        printf(error2);
         return;
     }
     if (period < 10 || period > 60000)
     {
         (void)platform_blink_stop();
-        printf(error);
+        printf(error1);
         return;
     }
     if (platform_blink_start(period))
     {
-        printf("timer_blink: started, period %d ms\n", (int)telemetry_task_get_period_ms());
+        printf("timer_blink: started, period %d ms\n", (int)platform_blink_period_ms());
     }
     else
     {
         (void)platform_blink_stop();
-        printf(error);
+        printf(error2);
     }
 }
 

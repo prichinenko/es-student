@@ -90,6 +90,11 @@ static bool on_blink(repeating_timer_t *timer)
     return true;
 }
 
+uint32_t platform_blink_period_ms(void)
+{
+    return -blink_timer.delay_us / 1000;
+}
+
 bool platform_blink_start(uint32_t period_ms)
 {
     if (period_ms < 10 || period_ms > 60000)

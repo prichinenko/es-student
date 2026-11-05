@@ -26,3 +26,5 @@ bool platform_blink_start(uint32_t period_ms);
 
 // гасит светодиод и возвращает число переключений с запуска
 uint32_t platform_blink_stop(void);
+
+uint32_t platform_blink_period_ms(void);
