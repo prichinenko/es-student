@@ -473,7 +473,7 @@ void print_dma_cap(const uint16_t *samples, uint32_t count, uint32_t time_us)
         "dma_cap: %d samples in %d us, expected %d us, min %d max %d mean %.1f\n",
         (int)count,
         (int)time_us,
-        (int)(count * 1000000 / PLATFORM_SAMPLE_RATE_HZ),
+        (int)((uint64_t)count * 1000000 / PLATFORM_SAMPLE_RATE_HZ),
         (int)min_val,
         (int)max_val,
         mean);

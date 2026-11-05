@@ -49,7 +49,7 @@ static volatile uint32_t capture_handler_us;
 
 static int block_channel;
 static uint16_t block_samples[PLATFORM_BLOCK_MAX];
-static uint32_t block_start_us;
+static volatile uint32_t block_start_us;
 static volatile uint32_t block_end_us;
 static volatile bool block_ready;
 

@@ -3,17 +3,17 @@
 устройство: 2e8a:000a
 серийный номер: 5045538400A2710C
 порт: /dev/ttyACM0
-начало: 2026-11-05T23:15:07
+начало: 2026-11-05T23:27:44
    0.000 --> 
    0.502 --> help
-   0.504 <-- help
-   0.504 <-- help             list of commands
-   0.504 <-- info             device passport
-   0.504 <-- uptime           time since reset
-   0.504 <-- led_enable       led on
-   0.504 <-- led_disable      led off
-   0.504 <-- led_blink        led blink
-   0.504 <-- led_period       led peruid ms: led_period [period]
+   0.503 <-- help
+   0.503 <-- help             list of commands
+   0.503 <-- info             device passport
+   0.503 <-- uptime           time since reset
+   0.503 <-- led_enable       led on
+   0.503 <-- led_disable      led off
+   0.503 <-- led_blink        led blink
+   0.503 <-- led_period       led peruid ms: led_period [period]
    0.504 <-- button           button status
    0.504 <-- pi_start         start calculate pi: pi_start [terms]
    0.504 <-- pi               pi result
@@ -40,25 +40,25 @@
    1.559 <-- serial: 5045538400A2710C
    1.559 <-- chip: manufacturer 0x927, part 0x0002, revision 2
    1.559 <-- pico-sdk: 2.3.0
-   2.513 --> dma_cap 1000
+   2.512 --> dma_cap 1000
    2.563 <-- dma_cap 1000
-   2.563 <-- dma_cap: 1000 samples in 22674 us, expected 22675 us, min 628 max 928 mean 917.4
-   3.015 --> dma_cap 4410
-   3.065 <-- dma_cap 4410
-   3.165 <-- dma_cap: 4410 samples in 100002 us, expected 2608 us, min 619 max 928 mean 920.4
-   3.517 --> dma_cap 8192
-   3.567 <-- dma_cap 8192
-   3.717 <-- dma_cap: 8192 samples in 185762 us, expected 88368 us, min 629 max 928 mean 920.8
-   4.019 --> uptime
-   4.069 <-- uptime
-   4.069 <-- uptime: 8991 ms
-   4.521 --> dma_cap 0
-   4.571 <-- dma_cap 0
-   4.571 <-- error: N must be 1..8192
-   5.023 --> dma_cap 9000
-   5.073 <-- dma_cap 9000
-   5.073 <-- error: N must be 1..8192
-   5.525 --> dma_cap
-   5.575 <-- dma_cap
-   5.575 <-- error: usage dma_cap <N>
+   2.563 <-- dma_cap: 1000 samples in 22680 us, expected 22675 us, min 624 max 928 mean 916.8
+   3.014 --> dma_cap 4410
+   3.064 <-- dma_cap 4410
+   3.165 <-- dma_cap: 4410 samples in 100003 us, expected 100000 us, min 609 max 929 mean 919.7
+   3.516 --> dma_cap 8192
+   3.566 <-- dma_cap 8192
+   3.717 <-- dma_cap: 8192 samples in 185762 us, expected 185759 us, min 616 max 928 mean 920.3
+   4.018 --> uptime
+   4.068 <-- uptime
+   4.068 <-- uptime: 63055 ms
+   4.520 --> dma_cap 0
+   4.570 <-- dma_cap 0
+   4.570 <-- error: N must be 1..8192
+   5.022 --> dma_cap 9000
+   5.072 <-- dma_cap 9000
+   5.072 <-- error: N must be 1..8192
+   5.524 --> dma_cap
+   5.574 <-- dma_cap
+   5.574 <-- error: usage dma_cap <N>
 итог: отправлено кадров 10, принято строк 47
