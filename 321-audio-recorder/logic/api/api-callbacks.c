@@ -424,6 +424,21 @@ static void cmd_cap_dump(const command_t *command)
         (int)capture.min_interval_us,
         (int)capture.max_interval_us,
         capture.handler_percent);
+    if (capture.count)
+    {
+        for (uint32_t n = 0; n <= capture.count >> 4; n++)
+        {
+            if ((n << 4) < capture.count)
+            {
+                printf("cap:");
+                for (uint32_t i = (n << 4); i < ((n << 4) + 16) && i < capture.count; ++i)
+                {
+                    printf(" %d", (int)capture.samples[i]);
+                }
+                printf("\n");
+            }
+        }
+    }
 }
 
 static void error_adc_busy(void)
