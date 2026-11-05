@@ -6,6 +6,7 @@
 #include "button-task/button-task.h"
 #include "pi-task/pi-task.h"
 #include "telemetry-task/telemetry-task.h"
+#include "block-task/block-task.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -64,6 +65,8 @@ void core1_entry()
             profiling_start(STOPWATCH_BUTTON);
             button_task_handle();
             profiling_stop(STOPWATCH_BUTTON);
+
+            block_task_handle();
         }
     }
 }

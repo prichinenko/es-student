@@ -7,6 +7,7 @@
 #include "profiling/profiling.h"
 #include "platform/platform.h"
 #include "telemetry-task/telemetry-task.h"
+#include "block-task/block-task.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -47,6 +48,7 @@ static void cmd_timer_blink_stop(const command_t *command);
 
 static void cmd_cap_start(const command_t *command);
 static void cmd_cap_dump(const command_t *command);
+static void cmd_dma_cap(const command_t *command);
 
 const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
@@ -71,6 +73,7 @@ const api_command_t api_commands[] = {
     {"timer_blink_stop", "stop timer blink, number of toggles", cmd_timer_blink_stop},
     {"cap_start", "capture start <N> <period_us>", cmd_cap_start},
     {"cap_dump", "capture start", cmd_cap_dump},
+    {"dma_cap", "capture start", cmd_dma_cap},
 };
 
 const uint32_t api_commands_count = sizeof(api_commands) / sizeof(api_commands[0]);
@@ -444,4 +447,67 @@ static void cmd_cap_dump(const command_t *command)
 static void error_adc_busy(void)
 {
     printf("error: adc busy\n");
+}
+
+void print_dma_cap(const uint16_t *samples, uint32_t count, uint32_t time_us)
+{
+    uint32_t min_val, max_val;
+    float mean = 0.0f;
+
+    min_val = max_val = samples[0];
+    for (uint32_t i = 1; i < count; ++i)
+    {
+        if (min_val > samples[i])
+        {
+            min_val = samples[i];
+        }
+        if (max_val < samples[i])
+        {
+            max_val = samples[i];
+        }
+        mean += samples[i];
+    }
+    mean /= count;
+
+    printf(
+        "dma_cap: %d samples in %d us, expected %d us, min %d max %d mean %.1f\n",
+        (int)count,
+        (int)time_us,
+        (int)(count * 1000000 / PLATFORM_SAMPLE_RATE_HZ),
+        (int)min_val,
+        (int)max_val,
+        mean);
+}
+
+static void cmd_dma_cap(const command_t *command)
+{
+    uint32_t n;
+    char error1[50];
+    const char *error2 = "error: usage dma_cap <N>\n";
+    snprintf(error1, sizeof(error1), "error: N must be 1..%d\n", PLATFORM_BLOCK_MAX);
+
+    if (platform_adc_busy())
+    {
+        error_adc_busy();
+        return;
+    }
+
+    if (command->argc != 1 || !parse_u32(command->argv[0], &n))
+    {
+        printf(error2);
+        return;
+    }
+    if (n < 1 || n > PLATFORM_BLOCK_MAX)
+    {
+        printf(error1);
+        return;
+    }
+    if (block_task_start(n, print_dma_cap))
+    {
+    }
+    else
+    {
+        printf(error2);
+        return;
+    }
 }

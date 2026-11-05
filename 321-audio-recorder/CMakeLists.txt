@@ -53,6 +53,8 @@ target_link_libraries(platform
     PRIVATE pico_stdlib
     PRIVATE hardware_adc
     PRIVATE hardware_timer
+    PRIVATE hardware_irq
+    PRIVATE hardware_dma
 )
 
 add_library(logic STATIC
@@ -62,6 +64,7 @@ add_library(logic STATIC
     logic/button-task/button-task.c
     logic/pi-task/pi-task.c
     logic/telemetry-task/telemetry-task.c
+    logic/block-task/block-task.c
 )
 
 target_include_directories(logic
