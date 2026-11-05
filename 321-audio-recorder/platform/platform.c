@@ -24,6 +24,23 @@ static bool blink_running;
 static volatile bool blink_on;
 static volatile uint32_t blink_toggles;
 
+// кто сейчас работает с АЦП; меняют и функции, и обработчики прерываний
+typedef enum
+{
+    ADC_FREE,
+    ADC_CAPTURE,
+} adc_user_t;
+
+static volatile adc_user_t adc_user;
+
+static repeating_timer_t capture_timer;
+static uint16_t capture_samples[PLATFORM_CAPTURE_MAX];
+static uint32_t capture_times[PLATFORM_CAPTURE_MAX];
+static uint32_t capture_count;
+static uint32_t capture_period_us;
+static volatile uint32_t capture_index;
+static volatile uint32_t capture_handler_us;
+
 void platform_init(void)
 {
     stdio_init_all();
@@ -121,4 +138,89 @@ uint32_t platform_blink_stop(void)
     blink_on = false;
     gpio_put(LED_PIN, 0);
     return blink_toggles;
+}
+
+// обработчик будильника захвата: время и отсчёт, затем время своей работы
+static bool on_capture(repeating_timer_t *timer)
+{
+    uint32_t start_us = time_us_32();
+    capture_times[capture_index] = start_us;
+    capture_samples[capture_index] = adc_read();
+    capture_index++;
+    capture_handler_us += time_us_32() - start_us;
+
+    if (capture_index < capture_count)
+    {
+        return true;
+    }
+
+    // захват окончен: АЦП свободен, будильник снимается
+    adc_user = ADC_FREE;
+    return false;
+}
+
+bool platform_capture_start(uint32_t count, uint32_t period_us)
+{
+    if (adc_user != ADC_FREE || count == 0 || count > PLATFORM_CAPTURE_MAX || period_us == 0)
+    {
+        return false;
+    }
+
+    adc_select_input(ADC_CHANNEL);
+    capture_count = count;
+    capture_period_us = period_us;
+    capture_index = 0;
+    capture_handler_us = 0;
+    adc_user = ADC_CAPTURE;
+
+    if (!add_repeating_timer_us(-(int64_t)period_us, on_capture, NULL, &capture_timer))
+    {
+        adc_user = ADC_FREE;
+        return false;
+    }
+    return true;
+}
+
+bool platform_adc_busy(void)
+{
+    return adc_user != ADC_FREE;
+}
+
+bool platform_capture_done(void)
+{
+    return capture_index == capture_count;
+}
+
+void platform_capture_get(platform_capture_t *capture)
+{
+    uint32_t min_interval = 0;
+    uint32_t max_interval = 0;
+    float handler_percent = 0.0f;
+
+    capture->samples = capture_samples;
+    capture->period_us = capture_period_us;
+    capture->count = capture_index;
+
+    if (capture->count > 1)
+    {
+        min_interval = max_interval = capture_times[1] - capture_times[0];
+        for (uint32_t i = 2; i < capture->count; ++i)
+        {
+            uint32_t delta = capture_times[i] - capture_times[i - 1];
+            if (delta > max_interval)
+            {
+                max_interval = delta;
+            }
+            if (delta < min_interval)
+            {
+                min_interval = delta;
+            }
+        }
+
+        handler_percent = 100 * capture_handler_us / (capture_times[capture_index - 1] - capture_times[0]);
+    }
+
+    capture->max_interval_us = max_interval;
+    capture->min_interval_us = min_interval;
+    capture->handler_percent = handler_percent;
 }

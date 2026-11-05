@@ -1,0 +1,60 @@
+задание: 3.2.2
+проект: 321-audio-recorder
+устройство: 2e8a:000a
+серийный номер: 5045538400A2710C
+порт: /dev/ttyACM1
+начало: 2026-11-05T15:50:42
+   0.000 --> 
+   0.503 --> help
+   0.504 <-- help
+   0.504 <-- help             list of commands
+   0.504 <-- info             device passport
+   0.504 <-- uptime           time since reset
+   0.504 <-- led_enable       led on
+   0.504 <-- led_disable      led off
+   0.504 <-- led_blink        led blink
+   0.504 <-- led_period       led peruid ms: led_period [period]
+   0.505 <-- button           button status
+   0.505 <-- pi_start         start calculate pi: pi_start [terms]
+   0.505 <-- pi               pi result
+   0.505 <-- profiling        profiling
+   0.505 <-- profiling_reset  profiling reset
+   0.505 <-- get_voltage      voltage on GP26, ADC input 0
+   0.506 <-- get_temp         chip temperature, degrees Celsius
+   0.506 <-- tm_start         telemetry start [period]
+   0.506 <-- tm_stop          telemetry stop [period]
+   0.506 <-- charge_on        charge on
+   0.506 <-- charge_off       charge off
+   0.506 <-- timer_blink_start blink led by timer: timer_blink_start <period_ms>
+   0.556 <-- timer_blink_stop stop timer blink, number of toggles
+   0.556 <-- cap_start        capture start <N> <period_us>
+   0.556 <-- cap_dump         capture start
+   1.509 --> info
+   1.559 <-- info
+   1.559 <-- name: es-recorder
+   1.559 <-- version: 1.0.0
+   1.559 <-- project: 321-audio-recorder
+   1.559 <-- repo: https://github.com/prichinenko/es-student
+   1.559 <-- board: pico_16m
+   1.559 <-- serial: 5045538400A2710C
+   1.559 <-- chip: manufacturer 0x927, part 0x0002, revision 2
+   1.559 <-- pico-sdk: 2.3.0
+   2.514 --> cap_start 1000 125
+   2.564 <-- cap_start 1000 125
+   2.564 <-- capture: started, 1000 samples, period 125 us
+   3.015 --> cap_dump
+   3.065 <-- cap_dump
+   3.066 <-- capture: 1000 samples, period 125 us, interval 122..125 us, handler 2.0 %
+   4.520 --> cap_start 2000 23
+   4.570 <-- cap_start 2000 23
+   4.570 <-- capture: started, 2000 samples, period 23 us
+   5.022 --> cap_dump
+   5.072 <-- cap_dump
+   5.072 <-- capture: 2000 samples, period 23 us, interval 10..30 us, handler 12.0 %
+   7.027 --> cap_start 0 125
+   7.078 <-- cap_start 0 125
+   7.078 <-- error: N must be 1..2000, period_us at least 10
+   7.529 --> cap_start 1000
+   7.579 <-- cap_start 1000
+   7.579 <-- error: usage cap_start <N> <period_us>
+итог: отправлено кадров 9, принято строк 44
