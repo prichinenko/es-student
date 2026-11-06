@@ -7,6 +7,7 @@
 #include "pi-task/pi-task.h"
 #include "telemetry-task/telemetry-task.h"
 #include "block-task/block-task.h"
+#include "stream-task/stream-task.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -67,6 +68,7 @@ void core1_entry()
             profiling_stop(STOPWATCH_BUTTON);
 
             block_task_handle();
+            stream_task_handle();
         }
     }
 }
@@ -79,6 +81,7 @@ int main()
     button_task_init(led_task_next_state);
     pi_task_init();
     telemetry_task_init(api_print_telemetry);
+    stream_task_init(api_send_frame);
 
     profiling_stopwatch_init(STOPWATCH_LOOP, "loop");
     profiling_stopwatch_init(STOPWATCH_COMMAND, "command");

@@ -8,6 +8,7 @@
 #include "platform/platform.h"
 #include "telemetry-task/telemetry-task.h"
 #include "block-task/block-task.h"
+#include "stream-task/stream-task.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,6 +18,7 @@
 #include <stdint.h>
 
 #define TELEMETRY_DEFAULT_PERIOD_MS 100
+#define STREAM_BLINK_PERIOD_MS 250
 
 static void error_adc_busy(void);
 
@@ -50,6 +52,9 @@ static void cmd_cap_start(const command_t *command);
 static void cmd_cap_dump(const command_t *command);
 static void cmd_dma_cap(const command_t *command);
 
+static void cmd_stream_start(const command_t *command);
+static void cmd_stream_stop(const command_t *command);
+
 const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
     {"info", "device passport", cmd_info},
@@ -74,6 +79,8 @@ const api_command_t api_commands[] = {
     {"cap_start", "capture start <N> <period_us>", cmd_cap_start},
     {"cap_dump", "capture start", cmd_cap_dump},
     {"dma_cap", "capture start", cmd_dma_cap},
+    {"stream_start", "stream start", cmd_stream_start},
+    {"stream_stop", "stream start", cmd_stream_stop},
 };
 
 const uint32_t api_commands_count = sizeof(api_commands) / sizeof(api_commands[0]);
@@ -510,4 +517,48 @@ static void cmd_dma_cap(const command_t *command)
         printf(error2);
         return;
     }
+}
+
+static void cmd_stream_start(const command_t *command)
+{
+    uint32_t bits = 16;
+    const char *error1 = "error: usage stream_start [8|16]\n";
+    const char *error2 = "error: adc busy\n";
+
+    if (command->argc == 1 && !parse_u32(command->argv[0], &bits))
+    {
+        printf(error1);
+        return;
+    }
+    else if (command->argc > 1)
+    {
+        printf(error1);
+        return;
+    }
+    if (bits != 8 && bits != 16)
+    {
+        printf(error1);
+        return;
+    }
+
+    if (stream_task_start((uint8_t)bits))
+    {
+        platform_blink_start(STREAM_BLINK_PERIOD_MS);
+        printf("stream: started, 44100 Hz, %d bit\n", (int)bits);
+    }
+    else
+    {
+        printf(error2);
+    }
+}
+
+static void cmd_stream_stop(const command_t *command)
+{
+    stream_task_stop();
+    platform_blink_stop();
+    printf(
+        "stream: stopped, %d frames, %d samples, %d overruns\n",
+        (int)stream_task_get_frames(),
+        (int)stream_task_get_samples(),
+        (int)stream_task_get_overruns());
 }
