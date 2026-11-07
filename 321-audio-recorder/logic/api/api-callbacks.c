@@ -55,6 +55,8 @@ static void cmd_dma_cap(const command_t *command);
 static void cmd_stream_start(const command_t *command);
 static void cmd_stream_stop(const command_t *command);
 
+static void cmd_generate_tone(const command_t *command);
+
 const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
     {"info", "device passport", cmd_info},
@@ -79,8 +81,9 @@ const api_command_t api_commands[] = {
     {"cap_start", "capture start <N> <period_us>", cmd_cap_start},
     {"cap_dump", "capture start", cmd_cap_dump},
     {"dma_cap", "capture start", cmd_dma_cap},
-    {"stream_start", "stream start", cmd_stream_start},
+    {"stream_start", "stream start [8|16]", cmd_stream_start},
     {"stream_stop", "stream start", cmd_stream_stop},
+    {"generate_tone", "generate tone <Hz>", cmd_generate_tone},
 };
 
 const uint32_t api_commands_count = sizeof(api_commands) / sizeof(api_commands[0]);
@@ -561,4 +564,32 @@ static void cmd_stream_stop(const command_t *command)
         (int)stream_task_get_frames(),
         (int)stream_task_get_samples(),
         (int)stream_task_get_overruns());
+}
+
+static void cmd_generate_tone(const command_t *command)
+{
+    uint32_t tone;
+    const char *error1 = "error: usage generate_tone <Hz>\n";
+    const char *error2 = "error: Hz must be 0 or 20..20000\n";
+
+    if (command->argc != 1 || !parse_u32(command->argv[0], &tone))
+    {
+        printf(error1);
+        return;
+    }
+    if (platform_tone_set(tone))
+    {
+        if (tone)
+        {
+            printf("tone: %d Hz\n", (int)tone);
+        }
+        else
+        {
+            printf("tone: off\n");
+        }
+    }
+    else
+    {
+        printf(error2);
+    }
 }

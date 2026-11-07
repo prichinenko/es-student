@@ -4,6 +4,8 @@
 #include "hardware/timer.h"
 #include "hardware/dma.h"
 #include "hardware/irq.h"
+#include "hardware/clocks.h"
+#include "hardware/pwm.h"
 
 #define LED_PIN 25
 #define BUTTON_PIN 10
@@ -20,6 +22,9 @@
 
 // встроенный датчик температуры — канал 4
 #define ADC_TEMP_CHANNEL 4
+
+#define TONE_PIN 20
+#define TONE_COUNT_HZ 1000000
 
 static repeating_timer_t blink_timer;
 static bool blink_running;
@@ -96,6 +101,13 @@ void platform_init(void)
     stream_channels[1] = dma_claim_unused_channel(true);
     irq_set_exclusive_handler(DMA_IRQ_0, on_stream_buffer);
     irq_set_enabled(DMA_IRQ_0, true);
+
+    gpio_set_function(TONE_PIN, GPIO_FUNC_PWM);
+    uint slice = pwm_gpio_to_slice_num(TONE_PIN);
+    pwm_set_clkdiv(slice, (float)clock_get_hz(clk_sys) / TONE_COUNT_HZ);
+    pwm_set_wrap(slice, 999);
+    pwm_set_gpio_level(TONE_PIN, 0);
+    pwm_set_enabled(slice, true);
 }
 
 void platform_led_set(bool on)
@@ -447,4 +459,26 @@ void platform_stream_release(void)
 uint32_t platform_stream_overruns(void)
 {
     return stream_overruns;
+}
+
+bool platform_tone_set(uint32_t tone)
+{
+    if (tone != 0 && (tone < PLATFORM_TONE_MIN_HZ || tone > PLATFORM_TONE_MAX_HZ))
+    {
+        return false;
+    }
+
+    if (tone == 0)
+    {
+        pwm_set_gpio_level(TONE_PIN, 0);
+    }
+    else
+    {
+        uint32_t period = (TONE_COUNT_HZ + (tone >> 1)) / tone;
+        uint slice = pwm_gpio_to_slice_num(TONE_PIN);
+        pwm_set_wrap(slice, period - 1);
+        pwm_set_gpio_level(TONE_PIN, period / 2);
+        pwm_set_enabled(slice, true);
+    }
+    return true;
 }

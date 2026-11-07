@@ -17,6 +17,9 @@
 // поток: два буфера по PLATFORM_STREAM_BYTES байт по очереди; false — АЦП занят
 #define PLATFORM_STREAM_BYTES 1024
 
+#define PLATFORM_TONE_MIN_HZ 20
+#define PLATFORM_TONE_MAX_HZ 20000
+
 // запускает стандартный ввод-вывод и настраивает выводы
 void platform_init(void);
 
@@ -85,3 +88,5 @@ uint32_t platform_stream_overruns(void);
 
 // отправляет байты в порт как есть, без замены \n на \r\n
 void platform_write(const void *data, uint32_t bytes);
+
+bool platform_tone_set(uint32_t tone);
