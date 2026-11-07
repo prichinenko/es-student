@@ -57,6 +57,7 @@ target_link_libraries(platform
     PRIVATE hardware_dma
     PRIVATE hardware_clocks
     PRIVATE hardware_pwm
+    PRIVATE hardware_watchdog
 )
 
 add_library(logic STATIC

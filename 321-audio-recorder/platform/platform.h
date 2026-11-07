@@ -90,3 +90,10 @@ uint32_t platform_stream_overruns(void);
 void platform_write(const void *data, uint32_t bytes);
 
 bool platform_tone_set(uint32_t tone);
+
+// сторожевой таймер; false — таймаут больше 8388 мс или равен нулю
+bool platform_watchdog_enable(uint32_t timeout_ms);
+void platform_watchdog_feed(void);
+
+// был ли последний сброс по сторожевому таймеру и сколько таких сбросов подряд
+bool platform_watchdog_caused_reset(uint32_t *restarts);

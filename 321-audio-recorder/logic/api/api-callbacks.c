@@ -57,6 +57,10 @@ static void cmd_stream_stop(const command_t *command);
 
 static void cmd_generate_tone(const command_t *command);
 
+static void cmd_hang(const command_t *command);
+static void cmd_wdt_enable(const command_t *command);
+static void cmd_reset_reason(const command_t *command);
+
 const api_command_t api_commands[] = {
     {"help", "list of commands", cmd_help},
     {"info", "device passport", cmd_info},
@@ -84,6 +88,9 @@ const api_command_t api_commands[] = {
     {"stream_start", "stream start [8|16]", cmd_stream_start},
     {"stream_stop", "stream start", cmd_stream_stop},
     {"generate_tone", "generate tone <Hz>", cmd_generate_tone},
+    {"hang", "hang: forever loop", cmd_hang},
+    {"wdt_enable", "hang: forever loop", cmd_wdt_enable},
+    {"reset_reason", "hang: forever loop", cmd_reset_reason},
 };
 
 const uint32_t api_commands_count = sizeof(api_commands) / sizeof(api_commands[0]);
@@ -591,5 +598,48 @@ static void cmd_generate_tone(const command_t *command)
     else
     {
         printf(error2);
+    }
+}
+
+static void cmd_hang(const command_t *command)
+{
+    printf("hang: superloop stopped\n");
+
+    while (1)
+    {
+    }
+}
+
+static void cmd_wdt_enable(const command_t *command)
+{
+    uint32_t timeout_ms;
+    const char *error1 = "error: usage wdt_enable <timeout_ms>\n";
+    const char *error2 = "error: timeout_ms must be 1..8388\n";
+
+    if (command->argc != 1 || !parse_u32(command->argv[0], &timeout_ms))
+    {
+        printf(error1);
+        return;
+    }
+    if (platform_watchdog_enable(timeout_ms))
+    {
+        printf("wdt: enabled, timeout %d ms\n", (int)timeout_ms);
+    }
+    else
+    {
+        printf(error2);
+    }
+}
+
+static void cmd_reset_reason(const command_t *command)
+{
+    uint32_t restarts;
+    if (platform_watchdog_caused_reset(&restarts))
+    {
+        printf("reset: watchdog, restarts %d\n", (int)restarts);
+    }
+    else
+    {
+        printf("reset: other, restarts %d\n", (int)restarts);
     }
 }
