@@ -440,6 +440,7 @@ const uint8_t *platform_stream_next(uint32_t *samples)
 void platform_stream_release(void)
 {
     stream_ready[stream_next] = false;
+    stream_next ^= 1;
 }
 
 // сколько раз DMA застал буфер неотправленным

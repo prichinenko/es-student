@@ -1,6 +1,6 @@
 #include "api.h"
 #include "api-commands.h"
-
+#include "platform/platform.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>

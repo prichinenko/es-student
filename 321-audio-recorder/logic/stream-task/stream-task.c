@@ -2,7 +2,6 @@
 #include "platform/platform.h"
 
 static stream_state_t stream_state = STREAM_STATE_IDLE;
-static volatile uint32_t stream_overruns;
 static uint32_t stream_samples;
 static uint32_t stream_frames;
 static uint32_t stream_bits;
@@ -10,7 +9,6 @@ static stream_task_callback_t stream_on_frame;
 
 void stream_task_init(stream_task_callback_t on_frame)
 {
-    stream_overruns = 0;
     stream_samples = 0;
     stream_frames = 0;
     stream_bits = 16;
@@ -32,7 +30,7 @@ void stream_task_handle(void)
                 .sync_word = STREAM_SYNC_WORD,
                 .number = stream_frames,
                 .count = samples};
-            stream_on_frame(&header, data, samples);
+            stream_on_frame(&header, data, samples * stream_bits / 8);
             stream_frames++;
             platform_stream_release();
         }
@@ -50,12 +48,14 @@ bool stream_task_start(uint8_t bits)
     {
         return false;
     }
-    stream_overruns = 0;
+    if (!platform_stream_start(bits))
+    {
+        return false;
+    }
     stream_samples = 0;
     stream_frames = 0;
     stream_bits = bits;
     stream_state = STREAM_STATE_RUN;
-    platform_stream_start(bits);
     return true;
 }
 void stream_task_stop(void)
@@ -87,5 +87,5 @@ uint32_t stream_task_get_samples(void)
 }
 uint32_t stream_task_get_overruns(void)
 {
-    return stream_overruns;
+    return platform_stream_overruns();
 }
