@@ -1,0 +1,69 @@
+задание: 3.2.7
+проект: 321-audio-recorder
+устройство: 2e8a:000a
+серийный номер: 5045538400A2710C
+порт: /dev/ttyACM0
+начало: 2026-11-08T09:36:50
+   0.000 --> 
+   0.502 --> help
+   0.503 <-- help
+   0.503 <-- help             list of commands
+   0.503 <-- info             device passport
+   0.503 <-- uptime           time since reset
+   0.503 <-- led_enable       led on
+   0.503 <-- led_disable      led off
+   0.503 <-- led_blink        led blink
+   0.503 <-- led_period       led peruid ms: led_period [period]
+   0.504 <-- button           button status
+   0.504 <-- pi_start         start calculate pi: pi_start [terms]
+   0.504 <-- pi               pi result
+   0.504 <-- profiling        profiling
+   0.504 <-- profiling_reset  profiling reset
+   0.504 <-- get_voltage      voltage on GP26, ADC input 0
+   0.505 <-- get_temp         chip temperature, degrees Celsius
+   0.505 <-- tm_start         telemetry start [period]
+   0.505 <-- tm_stop          telemetry stop [period]
+   0.505 <-- charge_on        charge on
+   0.505 <-- charge_off       charge off
+   0.505 <-- timer_blink_start blink led by timer: timer_blink_start <period_ms>
+   0.506 <-- timer_blink_stop stop timer blink, number of toggles
+   0.506 <-- cap_start        capture start <N> <period_us>
+   0.506 <-- cap_dump         capture start
+   0.506 <-- dma_cap          capture start
+   0.506 <-- stream_start     stream start [8|16]
+   0.506 <-- stream_stop      stream start
+   0.506 <-- generate_tone    generate tone <Hz>
+   0.556 <-- hang             hang: forever loop
+   0.556 <-- wdt_enable       hang: forever loop
+   0.556 <-- reset_reason     hang: forever loop
+   0.556 <-- mic_bias         mic bias
+   0.556 <-- mic_level        nic lecel [<ms>]
+   1.509 --> info
+   1.559 <-- info
+   1.559 <-- name: es-recorder
+   1.559 <-- version: 1.0.0
+   1.559 <-- project: 321-audio-recorder
+   1.559 <-- repo: https://github.com/prichinenko/es-student
+   1.559 <-- board: pico_16m
+   1.559 <-- serial: 5045538400A2710C
+   1.559 <-- chip: manufacturer 0x927, part 0x0002, revision 2
+   1.559 <-- pico-sdk: 2.3.0
+   2.512 --> mic_bias
+   2.563 <-- mic_bias
+   2.663 <-- mic: level 1.230 V
+   3.014 --> mic_level
+   3.064 <-- mic_level
+   3.165 <-- mic: level 6.8 mV rms, peak 43.5 mV, 100 ms
+   3.516 --> mic_level 50
+   3.566 <-- mic_level 50
+   3.616 <-- mic: level 7.1 mV rms, peak 33.0 mV, 50 ms
+   4.018 --> mic_level 185
+   4.068 <-- mic_level 185
+   4.219 <-- mic: level 6.9 mV rms, peak 49.1 mV, 184 ms
+   4.520 --> mic_level 0
+   4.570 <-- mic_level 0
+   4.570 <-- error: ms must be 1..185
+   5.022 --> mic_level 200
+   5.072 <-- mic_level 200
+   5.072 <-- error: ms must be 1..185
+итог: отправлено кадров 9, принято строк 53

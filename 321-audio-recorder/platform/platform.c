@@ -497,7 +497,7 @@ bool platform_tone_set(uint32_t tone)
         uint slice = pwm_gpio_to_slice_num(TONE_PIN);
         pwm_set_wrap(slice, period - 1);
         pwm_set_gpio_level(TONE_PIN, period / 2);
-        pwm_set_enabled(slice, true);
+        pwm_set_counter(slice, 0);
     }
     return true;
 }
@@ -525,4 +525,9 @@ bool platform_watchdog_caused_reset(uint32_t *restarts)
 {
     *restarts = watchdog_restarts;
     return watchdog_reset;
+}
+
+float platform_adc_volts(float code)
+{
+    return code * ADC_VREF_V / ADC_LEVELS;
 }
