@@ -686,7 +686,7 @@ void print_mic_bias(const uint16_t *samples, uint32_t count, uint32_t time_us)
 
     block_stats(samples, count, &mean, &rms, &peak);
 
-    printf("mic: level %.3f V\n", platform_adc_volts(mean));
+    printf("mic: bias %.3f V\n", platform_adc_volts(mean));
 }
 
 // отклонения в милливольтах, окно — count * 1000 / 44100,

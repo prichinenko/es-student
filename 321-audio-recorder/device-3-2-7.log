@@ -3,7 +3,7 @@
 устройство: 2e8a:000a
 серийный номер: 5045538400A2710C
 порт: /dev/ttyACM0
-начало: 2026-11-08T09:36:50
+начало: 2026-11-08T09:54:50
    0.000 --> 
    0.502 --> help
    0.503 <-- help
@@ -49,21 +49,21 @@
    1.559 <-- chip: manufacturer 0x927, part 0x0002, revision 2
    1.559 <-- pico-sdk: 2.3.0
    2.512 --> mic_bias
-   2.563 <-- mic_bias
-   2.663 <-- mic: level 1.230 V
+   2.562 <-- mic_bias
+   2.663 <-- mic: bias 1.230 V
    3.014 --> mic_level
    3.064 <-- mic_level
-   3.165 <-- mic: level 6.8 mV rms, peak 43.5 mV, 100 ms
+   3.164 <-- mic: level 7.1 mV rms, peak 45.9 mV, 100 ms
    3.516 --> mic_level 50
    3.566 <-- mic_level 50
-   3.616 <-- mic: level 7.1 mV rms, peak 33.0 mV, 50 ms
-   4.018 --> mic_level 185
-   4.068 <-- mic_level 185
-   4.219 <-- mic: level 6.9 mV rms, peak 49.1 mV, 184 ms
-   4.520 --> mic_level 0
-   4.570 <-- mic_level 0
-   4.570 <-- error: ms must be 1..185
-   5.022 --> mic_level 200
-   5.072 <-- mic_level 200
-   5.072 <-- error: ms must be 1..185
+   3.616 <-- mic: level 6.6 mV rms, peak 32.2 mV, 50 ms
+   4.017 --> mic_level 185
+   4.067 <-- mic_level 185
+   4.218 <-- mic: level 7.2 mV rms, peak 46.7 mV, 184 ms
+   4.519 --> mic_level 0
+   4.569 <-- mic_level 0
+   4.569 <-- error: ms must be 1..185
+   5.021 --> mic_level 200
+   5.071 <-- mic_level 200
+   5.071 <-- error: ms must be 1..185
 итог: отправлено кадров 9, принято строк 53
